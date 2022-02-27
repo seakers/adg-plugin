@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="adg.plugin" name="Architecture Decision Graph Plugin" version="1.0" provider-name="SEAKLAB" class="myplugin.MyPlugin">
+    <requires>
+        <api version="1.0"/>
+    </requires>
+    <runtime>
+        <library name="lib.jar"/>
+    </runtime>
+</plugin>
