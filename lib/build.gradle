@@ -27,7 +27,16 @@ dependencies {
     implementation 'com.google.guava:guava:30.1.1-jre'
 
     implementation fileTree('C:\\Program Files\\Cameo Systems Modeler Demo\\lib') { include '*.jar' }
+    implementation fileTree('C:\\Program Files\\Cameo Systems Modeler Demo\\plugins\\com.nomagic.magicdraw.dependencymatrix') { include '*.jar' }
+
+    implementation group: 'javax.persistence', name: 'persistence-api', version: '1.0'
 }
+
+jar {
+    destinationDirectory.set(file("$rootDir/adg"))
+}
+
+
 
 //tasks.named('test') {
 //    // Use JUnit Platform for unit tests.
