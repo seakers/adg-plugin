@@ -1,4 +1,4 @@
-package adg.plugin.menu;
+package adg.plugin.actions;
 
 import com.nomagic.actions.NMAction;
 import com.nomagic.magicdraw.core.Application;
@@ -10,11 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
-public class AbstractAction extends NMAction{
+
+public class AddDecisionAction extends NMAction{
 
     private final String mText;
 
-    public AbstractAction(String text)
+    public AddDecisionAction(String text)
     {
         super(text, text, KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK), null);
         mText = text;

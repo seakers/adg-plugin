@@ -12,7 +12,7 @@ import java.util.Collection;
 
 
 
-
+// DependencyMatrixConfigurator: file:///C:/Users/apaza/Documents/cameo_docs/com/nomagic/magicdraw/dependencymatrix/configuration/DependencyMatrixConfigurator.html
 
 public class ADGConfigurator extends DependencyMatrixConfigurator{
 

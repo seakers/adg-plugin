@@ -1,18 +1,30 @@
 package adg.plugin;
 
-import adg.plugin.menu.AbstractAction;
-import adg.plugin.menu.AddDecisionAction;
+import adg.plugin.actions.ExampleAction;
+import adg.plugin.actions.AddDecisionAction;
 import com.nomagic.actions.ActionsCategory;
 import com.nomagic.actions.ActionsManager;
 import com.nomagic.magicdraw.plugins.Plugin;
 
 import com.nomagic.magicdraw.dependencymatrix.configuration.DependencyMatrixConfigurator;
+
 import com.nomagic.magicdraw.actions.ActionsConfiguratorsManager;
 import com.nomagic.actions.AMConfigurator;
 
 
 import javax.swing.*;
 
+/*
+    --- Plugin Class ---
+
+    Override Functions
+    - init()
+    - close()
+    - isSupported()
+
+
+
+ */
 
 public class ADGPlugin extends Plugin{
 
@@ -29,8 +41,6 @@ public class ADGPlugin extends Plugin{
 
 
         // --> 2. Add actions to the command bar
-
-
         ActionsConfiguratorsManager.getInstance().addDiagramCommandBarConfigurator(
                 ADG_DEPENDENCY_MATRIX,
                 new AbstractActionConfigurator("Abstract Action")
@@ -44,11 +54,7 @@ public class ADGPlugin extends Plugin{
 
 
 
-
-
-
-
-
+        // --> 3. Finished Dialogue
         JOptionPane.showMessageDialog(null, "FINISHED ADG PLUGIN INITIALIZATION");
     }
 
@@ -92,7 +98,7 @@ public class ADGPlugin extends Plugin{
             mngr.addCategory(category);
 
             if(mText.equals("Abstract Action")){
-                category.addAction(new AbstractAction(mText));
+                category.addAction(new ExampleAction(mText));
             }
             else if(mText.equals("Add Decision")){
                 category.addAction(new AddDecisionAction(mText));
