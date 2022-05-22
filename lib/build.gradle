@@ -33,7 +33,8 @@ dependencies {
 }
 
 jar {
-    destinationDirectory.set(file("$rootDir/adg"))
+    // destinationDirectory.set(file("$rootDir/adg"))
+    destinationDirectory.set(file("C:\\Program Files\\Cameo Systems Modeler Demo\\plugins\\adg"))
 }
 
 
