@@ -24,12 +24,12 @@ import java.awt.event.KeyEvent;
  *
  * @author Mindaugas Ringys
  */
-public class DrawDownSelectingAction extends DrawShapeDiagramAction {
-    public static final String DRAW_DOWN_SELECTING_ACTION = "DRAW_DOWN_SELECTING_ACTION";
+public class DrawStandardFormAction extends DrawShapeDiagramAction {
+    public static final String DRAW_STANDARD_FORM_ACTION = "DRAW_STANDARD_FORM_ACTION";
 
-    public DrawDownSelectingAction()
+    public DrawStandardFormAction()
     {
-        super(DRAW_DOWN_SELECTING_ACTION, "Down Selecting", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
+        super(DRAW_STANDARD_FORM_ACTION, "Standard Form", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
         //noinspection OverridableMethodCallDuringObjectConstruction,SpellCheckingInspection
         setLargeIcon(SquareIcon.fitOrCenter(new ScalableImageIcon(getClass(), "icons/myclass.svg"), 16));
     }
@@ -56,7 +56,7 @@ public class DrawDownSelectingAction extends DrawShapeDiagramAction {
 
         // --> 3. Get appropriate stereotype for profile
         Stereotype decision_type = StereotypesHelper.getStereotype(project, "Decision", adg_profile);
-        Stereotype root_type     = StereotypesHelper.getStereotype(project, "DownSelecting", adg_profile);
+        Stereotype root_type     = StereotypesHelper.getStereotype(project, "StandardForm", adg_profile);
 
         // --> 4. Apply the stereotype to the element
         StereotypesHelper.addStereotype(element, decision_type);

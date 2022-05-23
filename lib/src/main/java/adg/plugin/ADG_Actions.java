@@ -1,8 +1,6 @@
 package adg.plugin;
 
-import adg.plugin.actions.DrawAssigningAction;
-import adg.plugin.actions.DrawDownSelectingAction;
-import adg.plugin.actions.DrawPartitioningAction;
+import adg.plugin.actions.*;
 import com.nomagic.actions.ActionsCategory;
 import com.nomagic.actions.ActionsManager;
 import com.nomagic.actions.NMAction;
@@ -51,6 +49,8 @@ public class ADG_Actions {
         NMAction drawDownSelectingAction = new DrawDownSelectingAction();
         NMAction drawPartitioningAction  = new DrawPartitioningAction();
         NMAction drawAssigningAction     = new DrawAssigningAction();
+        NMAction drawStandardFormAction  = new DrawStandardFormAction();
+        NMAction drawRootAction          = new DrawRootAction();
 
 
         // --> 2. Put into categories
@@ -64,6 +64,8 @@ public class ADG_Actions {
         category.addAction(drawDownSelectingAction);
         category.addAction(drawPartitioningAction);
         category.addAction(drawAssigningAction);
+        category.addAction(drawStandardFormAction);
+        category.addAction(drawRootAction);
 
 
 

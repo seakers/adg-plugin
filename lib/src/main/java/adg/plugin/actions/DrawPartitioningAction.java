@@ -12,6 +12,9 @@ import com.nomagic.ui.SquareIcon;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.StandardProfile;
+import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -39,18 +42,29 @@ public class DrawPartitioningAction extends DrawShapeDiagramAction {
     @Override
     protected Element createElement()
     {
-        // --> 1. Instantiate UML element
-        com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class elementClass = Application.getInstance().getProject().getElementsFactory().createClassInstance();
-
-        // --> 2. Apply stereotype
         Project project = Application.getInstance().getProject();
-        StereotypesHelper.addStereotype(elementClass, StandardProfile.getInstance(project).getEntity());
 
+        // --> 1. Instantiate UML element
+        com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class element = project.getElementsFactory().createClassInstance();
 
-        // --> 3. Set element to active
-        elementClass.setActive(true);
-        return elementClass;
+        Port port_input = project.getElementsFactory().createPortInstance();
+        port_input.setName("input");
+        port_input.setOwner(element);
 
+        // --> 2. Get ADG profile
+        Profile adg_profile = StereotypesHelper.getProfile(project, "ADGProfile");
+
+        // --> 3. Get appropriate stereotype for profile
+        Stereotype decision_type = StereotypesHelper.getStereotype(project, "Decision", adg_profile);
+        Stereotype root_type     = StereotypesHelper.getStereotype(project, "Partitioning", adg_profile);
+
+        // --> 4. Apply the stereotype to the element
+        StereotypesHelper.addStereotype(element, decision_type);
+        StereotypesHelper.addStereotype(element, root_type);
+
+        // --> 5. Set element to active
+        element.setActive(true);
+        return element;
     }
 
     /**

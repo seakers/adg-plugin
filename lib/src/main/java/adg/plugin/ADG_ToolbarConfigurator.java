@@ -1,9 +1,7 @@
 package adg.plugin;
 
 
-import adg.plugin.actions.DrawAssigningAction;
-import adg.plugin.actions.DrawDownSelectingAction;
-import adg.plugin.actions.DrawPartitioningAction;
+import adg.plugin.actions.*;
 import com.nomagic.actions.ActionsManager;
 import com.nomagic.magicdraw.actions.DiagramInnerToolbarConfiguration;
 import com.nomagic.magicdraw.ui.actions.BaseDiagramToolbarConfigurator;
@@ -65,6 +63,8 @@ public class ADG_ToolbarConfigurator extends BaseDiagramToolbarConfigurator {
         category.addAction(actions.getActionFor(DrawDownSelectingAction.DRAW_DOWN_SELECTING_ACTION));
         category.addAction(actions.getActionFor(DrawPartitioningAction.DRAW_PARTITIONING_ACTION));
         category.addAction(actions.getActionFor(DrawAssigningAction.DRAW_ASSIGNING_ACTION));
+        category.addAction(actions.getActionFor(DrawRootAction.DRAW_ROOT_ACTION));
+        category.addAction(actions.getActionFor(DrawStandardFormAction.DRAW_STANDARD_FORM_ACTION));
     }
 
 

@@ -1,7 +1,7 @@
 package adg.plugin;
 
 
-import adg.plugin.actions.TestingAction;
+import adg.plugin.actions.ValidateGraph;
 import com.nomagic.actions.AMConfigurator;
 import com.nomagic.actions.ActionsCategory;
 import com.nomagic.actions.ActionsManager;
@@ -34,7 +34,7 @@ public class ADG_Plugin extends Plugin{
         // --> Add new diagram actions
         ActionsConfiguratorsManager.getInstance().addDiagramCommandBarConfigurator(
                 ADG_Descriptor.ARCHITECTURE_DECISION_GRAPH,
-                new AbstractActionConfigurator(new TestingAction())
+                new AbstractActionConfigurator(new ValidateGraph())
         );
 
 
