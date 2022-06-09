@@ -1,7 +1,7 @@
 package adg.plugin;
 
 
-import adg.plugin.actions.*;
+import adg.plugin.decisions.*;
 import com.nomagic.actions.ActionsManager;
 import com.nomagic.magicdraw.actions.DiagramInnerToolbarConfiguration;
 import com.nomagic.magicdraw.ui.actions.BaseDiagramToolbarConfigurator;
@@ -24,18 +24,17 @@ public class ADG_ToolbarConfigurator extends BaseDiagramToolbarConfigurator {
         final ActionsManager actions = ADG_Actions.getActions();
 
         // --> Toolbar: Selection
-        this.configureSelectionToolbar(manager, actions);
+        // this.configureSelectionToolbar(manager, actions);
 
         // --> Toolbar: Tools
-        this.configureToolsToolbar(manager, actions);
+        // this.configureToolsToolbar(manager, actions);
 
         // --> Toolbar: Common
-        this.configureCommonToolbar(manager, actions);
+        // this.configureCommonToolbar(manager, actions);
 
         // --> Toolbar: Inner
         this.configureInnerToolbar(manager, actions);
     }
-
 
     public void configureSelectionToolbar(ActionsManager manager, ActionsManager actions){
         manager.addCategory(createSelectionToolbar(actions, superType));
@@ -60,11 +59,13 @@ public class ADG_ToolbarConfigurator extends BaseDiagramToolbarConfigurator {
         final DiagramInnerToolbarConfiguration category = new DiagramInnerToolbarConfiguration("SPECIFIC_DIAGRAM_ELEMENTS", null, "Specific Diagram Elements", true);
         manager.addCategory(category);
 
-        category.addAction(actions.getActionFor(DrawDownSelectingAction.DRAW_DOWN_SELECTING_ACTION));
-        category.addAction(actions.getActionFor(DrawPartitioningAction.DRAW_PARTITIONING_ACTION));
-        category.addAction(actions.getActionFor(DrawAssigningAction.DRAW_ASSIGNING_ACTION));
-        category.addAction(actions.getActionFor(DrawRootAction.DRAW_ROOT_ACTION));
-        category.addAction(actions.getActionFor(DrawStandardFormAction.DRAW_STANDARD_FORM_ACTION));
+        category.addAction(actions.getActionFor(DownSelectingDecision.DRAW_DOWN_SELECTING_ACTION));
+        category.addAction(actions.getActionFor(PartitioningDecision.DRAW_PARTITIONING_ACTION));
+        category.addAction(actions.getActionFor(AssigningDecision.DRAW_ASSIGNING_ACTION));
+        category.addAction(actions.getActionFor(RootDecision.DRAW_ROOT_ACTION));
+        category.addAction(actions.getActionFor(StandardFormDecision.DRAW_STANDARD_FORM_ACTION));
+
+        category.addAction(actions.getActionFor("ADD_DEPENDENCY"));
     }
 
 

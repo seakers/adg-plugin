@@ -11,12 +11,14 @@ import com.nomagic.magicdraw.uml.DiagramDescriptor;
 import com.nomagic.magicdraw.uml.DiagramType;
 import com.nomagic.ui.ResizableIcon;
 
+import java.io.File;
 import java.net.URL;
 
 public class ADG_Descriptor extends DiagramDescriptor{
 
 
     public static final String ARCHITECTURE_DECISION_GRAPH = "Architecture Decision Graph";
+    public static final String ICON_PATH = "C:\\Program Files\\Cameo Systems Modeler Demo\\plugins\\adg\\icons\\addicon1.svg";
 
     @Override
     public String getDiagramTypeId()
@@ -33,12 +35,21 @@ public class ADG_Descriptor extends DiagramDescriptor{
     @Override
     public String getPluralDiagramTypeHumanName()
     {
-        return "Architecture Decision Graphs";
+        return "Decision Graphs";
     }
 
     private URL getSVGIconURL()
     {
-        return getClass().getResource("icons/addicon1.svg");
+        try{
+            URL icon_url = new File(ADG_Descriptor.ICON_PATH).toURI().toURL();
+            return icon_url;
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        // --> Backup return if url fails
+        return getClass().getResource("icons/myclass.svg");
     }
 
     @Override

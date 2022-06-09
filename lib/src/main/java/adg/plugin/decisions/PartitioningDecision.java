@@ -1,6 +1,7 @@
-package adg.plugin.actions;
+package adg.plugin.decisions;
 
 
+import adg.plugin.events.DiagramEvents;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.properties.PropertyID;
@@ -9,9 +10,10 @@ import com.nomagic.magicdraw.ui.actions.DrawShapeDiagramAction;
 import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.ui.ScalableImageIcon;
 import com.nomagic.ui.SquareIcon;
-import com.nomagic.uml2.StandardProfile;
-import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.compositestructures.mdports.Port;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
@@ -24,12 +26,12 @@ import java.awt.event.KeyEvent;
  *
  * @author Mindaugas Ringys
  */
-public class DrawDownSelectingAction extends DrawShapeDiagramAction {
-    public static final String DRAW_DOWN_SELECTING_ACTION = "DRAW_DOWN_SELECTING_ACTION";
+public class PartitioningDecision extends DrawShapeDiagramAction {
+    public static final String DRAW_PARTITIONING_ACTION = "DRAW_PARTITIONING_ACTION";
 
-    public DrawDownSelectingAction()
+    public PartitioningDecision()
     {
-        super(DRAW_DOWN_SELECTING_ACTION, "Down Selecting", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
+        super(DRAW_PARTITIONING_ACTION, "Partitioning", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
         //noinspection OverridableMethodCallDuringObjectConstruction,SpellCheckingInspection
         setLargeIcon(SquareIcon.fitOrCenter(new ScalableImageIcon(getClass(), "icons/myclass.svg"), 16));
     }
@@ -56,7 +58,7 @@ public class DrawDownSelectingAction extends DrawShapeDiagramAction {
 
         // --> 3. Get appropriate stereotype for profile
         Stereotype decision_type = StereotypesHelper.getStereotype(project, "Decision", adg_profile);
-        Stereotype root_type     = StereotypesHelper.getStereotype(project, "DownSelecting", adg_profile);
+        Stereotype root_type     = StereotypesHelper.getStereotype(project, "Partitioning", adg_profile);
 
         // --> 4. Apply the stereotype to the element
         StereotypesHelper.addStereotype(element, decision_type);
@@ -64,6 +66,13 @@ public class DrawDownSelectingAction extends DrawShapeDiagramAction {
 
         // --> 5. Set element to active
         element.setActive(true);
+
+        // --> 6. Set owner to adg decision package
+        Diagram adg_diagram = project.getActiveDiagram().getDiagram();
+        Package decision_pkg = DiagramEvents.getAdgDecisionPackage(project, adg_diagram);
+        element.setName("Decision " + decision_pkg.getPackagedElement().size());
+        element.setOwner(decision_pkg);
+
         return element;
     }
 
@@ -81,3 +90,4 @@ public class DrawDownSelectingAction extends DrawShapeDiagramAction {
         return presentationElement;
     }
 }
+

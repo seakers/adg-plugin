@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ValidateGraph extends DefaultDiagramAction {
 
-    private static final String ACTION_NAME = "Validate Graph";
+    private static final String ACTION_NAME = "Validate";
 
     public ValidateGraph()
     {

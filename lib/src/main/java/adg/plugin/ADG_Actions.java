@@ -1,6 +1,6 @@
 package adg.plugin;
 
-import adg.plugin.actions.*;
+import adg.plugin.decisions.*;
 import com.nomagic.actions.ActionsCategory;
 import com.nomagic.actions.ActionsManager;
 import com.nomagic.actions.NMAction;
@@ -46,11 +46,11 @@ public class ADG_Actions {
         ActionsManager classDiagramActions = actionsCreator.createClassDiagramActions().clone();
 
         NMAction addStereotypeAction     = classDiagramActions.getActionFor(ActionsID.ADD_STEREOTYPE);
-        NMAction drawDownSelectingAction = new DrawDownSelectingAction();
-        NMAction drawPartitioningAction  = new DrawPartitioningAction();
-        NMAction drawAssigningAction     = new DrawAssigningAction();
-        NMAction drawStandardFormAction  = new DrawStandardFormAction();
-        NMAction drawRootAction          = new DrawRootAction();
+        NMAction drawDownSelectingAction = new DownSelectingDecision();
+        NMAction drawPartitioningAction  = new PartitioningDecision();
+        NMAction drawAssigningAction     = new AssigningDecision();
+        NMAction drawStandardFormAction  = new StandardFormDecision();
+        NMAction drawRootAction          = new RootDecision();
 
 
         // --> 2. Put into categories

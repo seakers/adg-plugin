@@ -1,5 +1,6 @@
-package adg.plugin.actions;
+package adg.plugin.decisions;
 
+import adg.plugin.events.DiagramEvents;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.properties.PropertyID;
@@ -9,18 +10,20 @@ import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.ui.ScalableImageIcon;
 import com.nomagic.ui.SquareIcon;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
-public class DrawRootAction extends DrawShapeDiagramAction {
+public class RootDecision extends DrawShapeDiagramAction {
 
     public static final String DRAW_ROOT_ACTION = "DRAW_ROOT_ACTION";
 
-    public DrawRootAction()
+    public RootDecision()
     {
         super(DRAW_ROOT_ACTION, "Root", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
         //noinspection OverridableMethodCallDuringObjectConstruction,SpellCheckingInspection
@@ -53,6 +56,13 @@ public class DrawRootAction extends DrawShapeDiagramAction {
 
         // --> 5. Set element to active
         element.setActive(true);
+
+        // --> 6. Set owner to adg decision package
+        Diagram adg_diagram = project.getActiveDiagram().getDiagram();
+        Package decision_pkg = DiagramEvents.getAdgDecisionPackage(project, adg_diagram);
+        element.setName("Root");
+        element.setOwner(decision_pkg);
+
         return element;
     }
 
