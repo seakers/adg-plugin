@@ -24,10 +24,10 @@ public class ADG_ToolbarConfigurator extends BaseDiagramToolbarConfigurator {
         final ActionsManager actions = ADG_Actions.getActions();
 
         // --> Toolbar: Selection
-        // this.configureSelectionToolbar(manager, actions);
+        this.configureSelectionToolbar(manager, actions);
 
         // --> Toolbar: Tools
-        // this.configureToolsToolbar(manager, actions);
+        this.configureToolsToolbar(manager, actions);
 
         // --> Toolbar: Common
         // this.configureCommonToolbar(manager, actions);

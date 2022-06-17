@@ -1,7 +1,9 @@
 package adg.plugin;
 
 
+import adg.plugin.actions.Connect;
 import adg.plugin.actions.ValidateGraph;
+import adg.plugin.actions.BuildGraph;
 import adg.plugin.events.DiagramEvents;
 import adg.plugin.events.ProjectEvents;
 import com.nomagic.actions.AMConfigurator;
@@ -16,6 +18,7 @@ import com.nomagic.magicdraw.plugins.Plugin;
 import com.nomagic.magicdraw.ui.actions.DefaultDiagramAction;
 import com.nomagic.magicdraw.uml.symbols.DiagramListenerAdapter;
 import com.nomagic.uml2.impl.ElementsFactory;
+import scala.util.hashing.Hashing;
 
 import javax.swing.*;
 
@@ -48,7 +51,7 @@ public class ADG_Plugin extends Plugin{
         // ---------------------------
         ActionsConfiguratorsManager.getInstance().addDiagramCommandBarConfigurator(
                 ADG_Descriptor.ARCHITECTURE_DECISION_GRAPH,
-                new AbstractActionConfigurator(new ValidateGraph())
+                new AbstractActionConfigurator()
         );
 
 
@@ -99,11 +102,14 @@ public class ADG_Plugin extends Plugin{
 
     private static final class AbstractActionConfigurator implements AMConfigurator {
 
-        private final DefaultDiagramAction action;
+        private final DefaultDiagramAction validate_graph;
+        private final DefaultDiagramAction build_graph;
+        private final DefaultDiagramAction connect;
 
-        AbstractActionConfigurator(DefaultDiagramAction action)
-        {
-            this.action = action;
+        AbstractActionConfigurator() {
+            this.validate_graph = new ValidateGraph();
+            this.build_graph = new BuildGraph();
+            this.connect = new Connect();
         }
 
         @Override
@@ -111,7 +117,9 @@ public class ADG_Plugin extends Plugin{
         {
             ActionsCategory category = new ActionsCategory();
             mngr.addCategory(category);
-            category.addAction(this.action);
+            category.addAction(this.validate_graph);
+            category.addAction(this.build_graph);
+            category.addAction(this.connect);
         }
 
         @Override

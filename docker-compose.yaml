@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: add_neo4j
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+    volumes:
+      - ./neo4j/data:/data
+      - /home/gapaza/repos/seakers/daphne/databases/neo4j_add/plugins:/plugins
+    environment:
+      - NEO4J_AUTH=neo4j/test
+      - NEO4J_dbms_allow__upgrade=true
+      - NEO4J_dbms_allow__format__migration=true
+      - NEO4J_dbms_security_procedures_unrestricted=gds.*
+      - NEO4J_dbms_security_procedures_whitelist=gds.*
+      - NEO4JLABS_PLUGINS='["graph-data-science"]'

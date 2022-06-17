@@ -2,6 +2,6 @@
 .gradle
 .idea
 .idea/*
-
+neo4j/data/*
 # Ignore Gradle build output directory
 build

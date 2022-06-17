@@ -175,10 +175,11 @@ public class DiagramEvents implements PropertyChangeListener {
                     // --> If the diagram has no relationships it is new
                     Diagram adg_diagram = diagram_view.getDiagram();
                     if(adg_diagram.get_directedRelationshipOfSource().isEmpty()){
-                        String temp_name = "New ADG (" + (this.diagram_map.keySet().size()+1) + ")";
+                        String temp_name = "ADG (" + (this.diagram_map.keySet().size()+1) + ")";
                         adg_diagram.setName(temp_name);
                         Package adg_package = DiagramEvents.getOrCreateAdgPackage(project, adg_diagram);
                         this.diagram_map.put(adg_diagram, adg_package);
+                        adg_diagram.setOwner(adg_package);
                     }
                 }
             }

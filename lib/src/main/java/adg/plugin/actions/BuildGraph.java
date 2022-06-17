@@ -22,7 +22,7 @@ import java.util.List;
 
 public class BuildGraph extends DefaultDiagramAction {
 
-    private static final String ACTION_NAME = "Build";
+    private static final String ACTION_NAME = "Build Graph";
 
     public BuildGraph()
     {
