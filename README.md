@@ -2,10 +2,6 @@
 
 Cameo Systems Modeler plugin for design space exploration and problem formulation through decision modeling.
 
-### Dependencies
-1. Cameo Systems Modeler (v19.0 SP4)
-
-
 
 ## Installation
 
@@ -17,17 +13,20 @@ Cameo Systems Modeler plugin for design space exploration and problem formulatio
 ### Configuration
 
 The only configuration required is pointing the gradle build tool to the directory where the plugin is to be built.
-This can be done by setting the xxx variable in `/lib/build.gradle` to the path of your Cameo Systems Modeler install.
+This can be done by setting the `CAMEO_PATH` variable in `/lib/build.gradle` to the path of your Cameo Systems Modeler install.
 
+    def CAMEO_PATH = '/path/to/cameo'
 
 
 ### Building
 
-text
+1. Open a terminal shell and navigate to this project's root dir
+2. Run command `./gradlew buildPlugin`
+3. Validate adg plugin was created in cameo plugins home dir
 
 ### Running
 
-text
+1. Open Cameo
 
 
 
