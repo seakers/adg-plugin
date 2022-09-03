@@ -14,7 +14,7 @@ plugins {
 //                             |___/
 
 
-def CAMEO_PATH = 'C:\\Program Files\\Cameo Systems Modeler Demo'
+def CAMEO_PATH = '/c/Program Files/Cameo Systems Modeler Demo'
 def CAMEO_LIB_PATH = CAMEO_PATH + File.separator + 'lib'
 def CAMEO_PLUGINS_PATH = CAMEO_PATH + File.separator + 'plugins'
 def CAMEO_ADG_PLUGIN_PATH = CAMEO_PLUGINS_PATH + File.separator + 'adg'
