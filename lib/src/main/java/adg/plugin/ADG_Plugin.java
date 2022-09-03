@@ -1,24 +1,17 @@
 package adg.plugin;
 
 
-import adg.plugin.actions.Connect;
-import adg.plugin.actions.ValidateGraph;
-import adg.plugin.actions.BuildGraph;
-import adg.plugin.events.DiagramEvents;
+import adg.plugin.actions.*;
 import adg.plugin.events.ProjectEvents;
 import com.nomagic.actions.AMConfigurator;
 import com.nomagic.actions.ActionsCategory;
 import com.nomagic.actions.ActionsManager;
-import com.nomagic.ci.persistence.local.a.P;
 import com.nomagic.magicdraw.actions.ActionsConfiguratorsManager;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.core.project.ProjectEventListenerAdapter;
 import com.nomagic.magicdraw.plugins.Plugin;
 import com.nomagic.magicdraw.ui.actions.DefaultDiagramAction;
-import com.nomagic.magicdraw.uml.symbols.DiagramListenerAdapter;
 import com.nomagic.uml2.impl.ElementsFactory;
-import scala.util.hashing.Hashing;
 
 import javax.swing.*;
 
@@ -102,14 +95,20 @@ public class ADG_Plugin extends Plugin{
 
     private static final class AbstractActionConfigurator implements AMConfigurator {
 
+        private final DefaultDiagramAction set_algorithm;
         private final DefaultDiagramAction validate_graph;
         private final DefaultDiagramAction build_graph;
         private final DefaultDiagramAction connect;
+        private final DefaultDiagramAction random_design;
+        private final DefaultDiagramAction crossover_designs;
 
         AbstractActionConfigurator() {
+            this.set_algorithm = new SetAlgorithm();
             this.validate_graph = new ValidateGraph();
             this.build_graph = new BuildGraph();
-            this.connect = new Connect();
+            this.connect = new ConnectDB();
+            this.random_design = new RandomDesign();
+            this.crossover_designs = new CrossoverDesigns();
         }
 
         @Override
@@ -117,9 +116,16 @@ public class ADG_Plugin extends Plugin{
         {
             ActionsCategory category = new ActionsCategory();
             mngr.addCategory(category);
-            category.addAction(this.validate_graph);
-            category.addAction(this.build_graph);
+            // category.addAction(this.validate_graph);
+            category.addAction(this.set_algorithm);
             category.addAction(this.connect);
+            category.addAction(this.build_graph);
+
+            ActionsCategory category2 = new ActionsCategory();
+            mngr.addCategory(category2);
+            category2.addAction(this.random_design);
+            category2.addAction(this.crossover_designs);
+
         }
 
         @Override

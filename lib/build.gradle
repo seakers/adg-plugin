@@ -28,6 +28,9 @@ dependencies {
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // ADG Library
+    implementation files('C:\\Program Files\\Cameo Systems Modeler Demo\\plugins\\adg\\decision-graph.jar')
 }
 
 
@@ -40,3 +43,4 @@ jar {
     // destinationDirectory.set(file("$rootDir/adg"))
     destinationDirectory.set(file("C:\\Program Files\\Cameo Systems Modeler Demo\\plugins\\adg"))
 }
+

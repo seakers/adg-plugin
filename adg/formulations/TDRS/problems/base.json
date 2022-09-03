@@ -1,0 +1,72 @@
+{
+  "constellations": [
+    {
+      "name": "GEOa-1-1",
+      "contract-modalities": [
+        {
+          "name": "procurement"
+        },
+        {
+          "name": "hosted-payload"
+        }
+      ],
+      "isl-payloads": [
+        {
+          "name": "yes"
+        },
+        {
+          "name": "no"
+        }
+      ]
+    },
+    {
+      "name": "GEOb-1-1",
+      "contract-modalities": [
+        {
+          "name": "procurement"
+        },
+        {
+          "name": "hosted-payload"
+        }
+      ],
+      "isl-payloads": [
+        {
+          "name": "yes"
+        },
+        {
+          "name": "no"
+        }
+      ]
+    },
+    {
+      "name": "GEOc-1-1",
+      "contract-modalities": [
+        {
+          "name": "procurement"
+        },
+        {
+          "name": "hosted-payload"
+        }
+      ],
+      "isl-payloads": [
+        {
+          "name": "yes"
+        },
+        {
+          "name": "no"
+        }
+      ]
+    }
+  ],
+  "antennas": [
+    {
+      "name": "A-SMA"
+    },
+    {
+      "name": "SA1"
+    },
+    {
+      "name": "SA2"
+    }
+  ]
+}

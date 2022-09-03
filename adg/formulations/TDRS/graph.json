@@ -1,0 +1,40 @@
+{
+  "decisions": [
+    {
+      "name": "Antenna Assignment",
+      "type": "Assigning"
+    },
+    {
+      "name": "Contract Modalities",
+      "type": "StandardForm"
+    },
+    {
+      "name": "Isp Payloads",
+      "type": "StandardForm"
+    }
+  ],
+  "edges":[
+    {
+      "parent": "Root",
+      "child": "Antenna Assignment",
+      "operates_on": "constellations",
+      "type": "TO"
+    },
+    {
+      "parent": "Root",
+      "child": "Antenna Assignment",
+      "operates_on": "antennas",
+      "type": "FROM"
+    },
+    {
+      "parent": "Antenna Assignment",
+      "child": "Contract Modalities",
+      "operates_on": "contract-modalities"
+    },
+    {
+      "parent": "Antenna Assignment",
+      "child": "Isp Payloads",
+      "operates_on": "isl-payloads"
+    }
+  ]
+}
