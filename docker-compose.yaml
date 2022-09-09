@@ -8,7 +8,7 @@ services:
       - "7474:7474"
     volumes:
       - ./neo4j/data:/data
-      - /home/gapaza/repos/seakers/daphne/databases/neo4j_add/plugins:/plugins
+      - ./neo4j/plugins:/plugins
     environment:
       - NEO4J_AUTH=neo4j/test
       - NEO4J_dbms_allow__upgrade=true
