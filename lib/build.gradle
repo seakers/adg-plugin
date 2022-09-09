@@ -14,7 +14,7 @@ plugins {
 //                             |___/
 
 
-def CAMEO_PATH = '/c/Program Files/Cameo Systems Modeler Demo'
+def CAMEO_PATH = 'C:\\Program Files\\Cameo Systems Modeler Demo'
 def CAMEO_LIB_PATH = CAMEO_PATH + File.separator + 'lib'
 def CAMEO_PLUGINS_PATH = CAMEO_PATH + File.separator + 'plugins'
 def CAMEO_ADG_PLUGIN_PATH = CAMEO_PLUGINS_PATH + File.separator + 'adg'
@@ -74,16 +74,20 @@ jar {
 //       |_| \__,_||___/|_|\_\|___/
 
 
-tasks.register('copyPlugin', Copy) {
-    println '--> COPYING PLUGIN'
+tasks.register('copyPlugin', Sync) {
     from LOCAL_ADG_PLUGIN_PATH
     into CAMEO_ADG_PLUGIN_PATH
+    fileMode 0644
 }
 
 tasks.register('buildPlugin') {
 
     // --> 1. Run initial gradle build task generating jar library
-    // dependsOn tasks.build
+    dependsOn tasks.build
+
+    File fullPath = new File(LOCAL_ADG_PLUGIN_PATH)
+    if (!fullPath.exists())
+        fullPath.mkdirs()
 
     // --> 2. Copy plugin dir over to cameo plugins dir
     dependsOn tasks.copyPlugin
