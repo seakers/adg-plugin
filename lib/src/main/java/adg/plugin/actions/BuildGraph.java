@@ -5,7 +5,6 @@ import adg.plugin.graph.AlgorithmParameters;
 import adg.plugin.graph.ConnectionParameters;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.nomagic.ci.persistence.local.a.J;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.MainFrame;
