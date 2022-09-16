@@ -25,6 +25,7 @@ public class DiagramEvents implements PropertyChangeListener {
     public HashMap<Diagram, Package> diagram_map;
 
 
+    // --> Called every time a project is opened
     public DiagramEvents initialize(Project project){
         this.diagram_map = new HashMap<>();
         Package primary_model = project.getPrimaryModel();
@@ -32,7 +33,7 @@ public class DiagramEvents implements PropertyChangeListener {
         // --> 1. Get all ADGs in the current project
         ArrayList<Diagram> adg_diagrams = DiagramEvents.getAdgDiagrams(project);
 
-        // --> 2. If any ADGs exist, ensure structure for generated designs
+        // --> 2. If any ADGs exist, ensure diagram package
         if(!adg_diagrams.isEmpty()){
             DiagramEvents.getOrCreateDiagramPackage(project);
 
@@ -41,10 +42,43 @@ public class DiagramEvents implements PropertyChangeListener {
                 this.diagram_map.put(adg_diagram, DiagramEvents.getOrCreateAdgPackage(project, adg_diagram));
             }
         }
-
-
         return this;
     }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        Project project = Application.getInstance().getProject();
+
+        // --------------------
+        // --- HANDLE EVENT ---
+        // --------------------
+        String propertyName = evt.getPropertyName();
+        // System.out.println("--> EVENT "+propertyName+": " + evt.getNewValue().getClass().toString());
+
+        // --> EVENT: ADG Diagram Opened / Created
+        if (Project.DIAGRAM_OPENED.equals(propertyName)) {
+            Object new_value = evt.getNewValue();
+            if (new_value instanceof DiagramWindow){
+                DiagramPresentationElement diagram_view = ((DiagramWindow) new_value).getDiagramPresentationElement();
+                if(diagram_view.getDiagramType().getType().equals(ADG_Descriptor.ARCHITECTURE_DECISION_GRAPH)){
+
+                    // --> If the diagram has no relationships it is new
+                    Diagram adg_diagram = diagram_view.getDiagram();
+                    if(adg_diagram.get_directedRelationshipOfSource().isEmpty()){
+                        String temp_name = "ADG" + (this.diagram_map.keySet().size()+1);
+                        adg_diagram.setName(temp_name);
+                        Package adg_package = DiagramEvents.getOrCreateAdgPackage(project, adg_diagram);
+                        this.diagram_map.put(adg_diagram, adg_package);
+                        adg_diagram.setOwner(adg_package);
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
 
     public static ArrayList<Diagram> getAdgDiagrams(Project project){
         Collection<DiagramPresentationElement> diagrams_view = project.getDiagrams();
@@ -150,43 +184,6 @@ public class DiagramEvents implements PropertyChangeListener {
         JOptionPane.showMessageDialog(null, "Adg Decision Package Not Found");
         return null;
     }
-
-
-
-
-
-
-    public void propertyChange(PropertyChangeEvent evt) {
-        Project project = Application.getInstance().getProject();
-
-        // --------------------
-        // --- HANDLE EVENT ---
-        // --------------------
-        String propertyName = evt.getPropertyName();
-        // System.out.println("--> EVENT "+propertyName+": " + evt.getNewValue().getClass().toString());
-
-        // --> EVENT: ADG Diagram Opened / Created
-        if (Project.DIAGRAM_OPENED.equals(propertyName)) {
-            Object new_value = evt.getNewValue();
-            if (new_value instanceof DiagramWindow){
-                DiagramPresentationElement diagram_view = ((DiagramWindow) new_value).getDiagramPresentationElement();
-                if(diagram_view.getDiagramType().getType().equals(ADG_Descriptor.ARCHITECTURE_DECISION_GRAPH)){
-
-                    // --> If the diagram has no relationships it is new
-                    Diagram adg_diagram = diagram_view.getDiagram();
-                    if(adg_diagram.get_directedRelationshipOfSource().isEmpty()){
-                        String temp_name = "ADG" + (this.diagram_map.keySet().size()+1);
-                        adg_diagram.setName(temp_name);
-                        Package adg_package = DiagramEvents.getOrCreateAdgPackage(project, adg_diagram);
-                        this.diagram_map.put(adg_diagram, adg_package);
-                        adg_diagram.setOwner(adg_package);
-                    }
-                }
-            }
-        }
-    }
-
-
 
 
 

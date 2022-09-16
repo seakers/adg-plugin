@@ -33,7 +33,7 @@ public class ADG_Plugin extends Plugin{
         // --> Add stereotypes for ADGs
         // this.init_stereotypes();
 
-        // --> Add new diagram type
+        // --> Add new diagram type, handles decision actions
         Application.getInstance().addNewDiagramType(new ADG_Descriptor());
 
 
@@ -53,6 +53,8 @@ public class ADG_Plugin extends Plugin{
         // --------------------------
         ProjectEvents event_handler = new ProjectEvents();
         Application.getInstance().getProjectsManager().addProjectListener(event_handler);
+
+
 
         // --------------------
         // ----- FINISHED -----

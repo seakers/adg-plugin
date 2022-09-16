@@ -16,7 +16,6 @@ import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
-import com.teamdev.jxbrowser.js.Json;
 import graph.Graph;
 
 import javax.annotation.CheckForNull;
