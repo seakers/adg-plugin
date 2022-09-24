@@ -49,9 +49,9 @@ public class DownSelectingDecision extends DrawShapeDiagramAction {
         // --> 1. Instantiate UML element
         com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class element = project.getElementsFactory().createClassInstance();
 
-        Port port_input = project.getElementsFactory().createPortInstance();
-        port_input.setName("input");
-        port_input.setOwner(element);
+//        Port port_input = project.getElementsFactory().createPortInstance();
+//        port_input.setName("input");
+//        port_input.setOwner(element);
 
         // --> 2. Get ADG profile
         Profile adg_profile = StereotypesHelper.getProfile(project, "ADGProfile");

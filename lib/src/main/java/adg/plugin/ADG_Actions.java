@@ -50,6 +50,7 @@ public class ADG_Actions {
         NMAction drawPartitioningAction  = new PartitioningDecision();
         NMAction drawAssigningAction     = new AssigningDecision();
         NMAction drawStandardFormAction  = new StandardFormDecision();
+        NMAction drawPermutingAction     = new PermutingDecision();
         NMAction drawRootAction          = new RootDecision();
 
 
@@ -65,6 +66,7 @@ public class ADG_Actions {
         category.addAction(drawPartitioningAction);
         category.addAction(drawAssigningAction);
         category.addAction(drawStandardFormAction);
+        category.addAction(drawPermutingAction);
         category.addAction(drawRootAction);
 
 

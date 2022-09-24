@@ -3,12 +3,21 @@
     {
       "name": "Instrument Selection",
       "type": "DownSelecting"
+    },
+    {
+      "name": "Instrument Partitioning",
+      "type": "Partitioning"
     }
   ],
   "edges":[
     {
       "parent": "Root",
       "child": "Instrument Selection",
+      "operates_on": "instruments"
+    },
+    {
+      "parent": "Instrument Selection",
+      "child": "Instrument Partitioning",
       "operates_on": "instruments"
     }
   ]
