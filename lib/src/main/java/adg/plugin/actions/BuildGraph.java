@@ -67,7 +67,7 @@ public class BuildGraph extends DefaultDiagramAction {
 
 
         // --> 3. Build graph
-        if(!Graph.buildInstance(conn.uri, conn.user, conn.password, formulation, problem, reset_nodes, reset_graphs, adg_diagram_view, adg_specs)){
+        if(!Graph.buildInstance(conn.uri, conn.user, conn.password, formulation, problem, reset_nodes, reset_graphs, adg_specs)){
             JOptionPane.showMessageDialog(null, "ERROR: while building graph (check database connection)");
             return;
         }

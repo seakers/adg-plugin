@@ -84,13 +84,6 @@ tasks.register('buildPlugin') {
 
     // --> 1. Run initial gradle build task generating jar library
     dependsOn tasks.build
-<<<<<<< Updated upstream
-
-    File fullPath = new File(LOCAL_ADG_PLUGIN_PATH)
-    if (!fullPath.exists())
-        fullPath.mkdirs()
-=======
->>>>>>> Stashed changes
 
     // --> 2. Copy plugin dir over to cameo plugins dir
     dependsOn tasks.copyPlugin
