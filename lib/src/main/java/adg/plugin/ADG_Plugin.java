@@ -11,7 +11,6 @@ import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.plugins.Plugin;
 import com.nomagic.magicdraw.ui.actions.DefaultDiagramAction;
-import com.nomagic.uml2.impl.ElementsFactory;
 
 import javax.swing.*;
 
@@ -70,7 +69,6 @@ public class ADG_Plugin extends Plugin{
 
         Project project = Application.getInstance().getProject();
         System.out.println((project == null));
-        ElementsFactory elementsFactory = project.getElementsFactory();
 
     }
 

@@ -14,7 +14,7 @@ plugins {
 //                             |___/
 
 
-def CAMEO_PATH = 'C:\\Program Files\\Cameo Systems Modeler Demo'
+def CAMEO_PATH = '/Applications/Cameo Systems Modeler Demo'
 def CAMEO_LIB_PATH = CAMEO_PATH + File.separator + 'lib'
 def CAMEO_PLUGINS_PATH = CAMEO_PATH + File.separator + 'plugins'
 def CAMEO_ADG_PLUGIN_PATH = CAMEO_PLUGINS_PATH + File.separator + 'adg'
@@ -52,7 +52,7 @@ dependencies {
     // ADG Api
     implementation files("$LOCAL_ADG_API_PATH")
 
-    // implementation group: 'javax.persistence', name: 'persistence-api', version: '1.0'
+    implementation group: 'javax.persistence', name: 'persistence-api', version: '1.0'
 }
 
 jar {
@@ -84,10 +84,13 @@ tasks.register('buildPlugin') {
 
     // --> 1. Run initial gradle build task generating jar library
     dependsOn tasks.build
+<<<<<<< Updated upstream
 
     File fullPath = new File(LOCAL_ADG_PLUGIN_PATH)
     if (!fullPath.exists())
         fullPath.mkdirs()
+=======
+>>>>>>> Stashed changes
 
     // --> 2. Copy plugin dir over to cameo plugins dir
     dependsOn tasks.copyPlugin
