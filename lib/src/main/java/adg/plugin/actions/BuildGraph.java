@@ -7,19 +7,12 @@ import adg.plugin.graph.ConnectionParameters;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.nomagic.ci.persistence.local.a.J;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
-import com.nomagic.magicdraw.ui.MainFrame;
 import com.nomagic.magicdraw.ui.actions.DefaultDiagramAction;
-import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
-import com.nomagic.magicdraw.uml.symbols.PresentationElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.*;
-import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
-import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.teamdev.jxbrowser.js.Json;
-import graph.Graph;
 
 import javax.annotation.CheckForNull;
 import javax.swing.*;
@@ -27,10 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 public class BuildGraph extends DefaultDiagramAction {
 
@@ -64,22 +54,22 @@ public class BuildGraph extends DefaultDiagramAction {
         // JsonObject adg_specs = this.buildAdgSpecsExample(adg_diagram_view);
         JsonObject adg_specs = this.buildAdgSpecs(adg_diagram_view);
         JOptionPane.showMessageDialog(null, "EARLY RETURN");
-
-
-        // --> 3. Build graph
-        if(!Graph.buildInstance(conn.uri, conn.user, conn.password, formulation, problem, reset_nodes, reset_graphs, adg_specs)){
-            JOptionPane.showMessageDialog(null, "ERROR: while building graph (check database connection)");
-            return;
-        }
-
-        // --> 4. Get graph instance / validate
-        Graph graph = Graph.getInstance();
-        if(!graph.isBuilt){
-            JOptionPane.showMessageDialog(null, "ERROR: while building graph - build unsuccessful");
-            return;
-        }
-
-        JOptionPane.showMessageDialog(null, "SUCCESS: graph build passed");
+//
+//
+//        // --> 3. Build graph
+//        if(!Graph.buildInstance(conn.uri, conn.user, conn.password, formulation, problem, reset_nodes, reset_graphs, adg_specs)){
+//            JOptionPane.showMessageDialog(null, "ERROR: while building graph (check database connection)");
+//            return;
+//        }
+//
+//        // --> 4. Get graph instance / validate
+//        Graph graph = Graph.getInstance();
+//        if(!graph.isBuilt){
+//            JOptionPane.showMessageDialog(null, "ERROR: while building graph - build unsuccessful");
+//            return;
+//        }
+//
+//        JOptionPane.showMessageDialog(null, "SUCCESS: graph build passed");
     }
 
 
@@ -131,88 +121,108 @@ public class BuildGraph extends DefaultDiagramAction {
 
 
     public JsonObject buildAdgGraphObject(DiagramPresentationElement adg_diagram_view){
+
+        // --> 1. Build Graph JsonObject
+        JOptionPane.showMessageDialog(null, "--> BUILDING GRAPH OBJECT");
         JsonObject graph_object = new JsonObject();
         JsonArray decisions = new JsonArray();
         JsonArray edges = new JsonArray();
+        graph_object.add("decisions", decisions);
+        graph_object.add("edges", edges);
 
 
-
+        // --> 2. Populate Decisions / Edges
         Collection<Element> elements = adg_diagram_view.getUsedModelElements();
-
-        // --> Build: decisions
         for(Element element: elements){
-            ArrayList<String> element_types = Decision.get_stereotypes(element);
-            if(!element_types.contains("Decision"))
+            if(!Decision.is_decision(element))
                 continue;
-            if(element_types.contains("Root"))
+            if(Decision.is_root_decision(element))
                 continue;
 
-            String decision_type = Decision.get_decision_type(element);
-            String decision_name = Decision.get_decision_name(element);
-            String name = "|" + decision_type + "|" + decision_name + "|";
-            JOptionPane.showMessageDialog(null, name);
+            // --> Get decision object
+            Element decision_element = element;
+            String decision_type = Decision.get_decision_type(decision_element);
+            String decision_name = Decision.get_element_name(decision_element);
 
+            // --> Enter decision object
             JsonObject decision = new JsonObject();
             decision.addProperty("name", decision_name);
             decision.addProperty("type", decision_type);
             decisions.add(decision);
+            JOptionPane.showMessageDialog(null, "- " + decision_name + " " + decision_type);
 
-//
-//            Collection<Element> inner_elements = element.getOwnedElement();
-//
-//            for(Element inner_element: inner_elements){
-//                Property property = (Property) inner_element;
-//            }
+            // --> Enter decision edges
+            Collection<DirectedRelationship> relationships_source = element.get_directedRelationshipOfSource();
+            for(DirectedRelationship relationship: relationships_source){
+                Element related_element = Decision.get_relationship_element_target(relationship);
+                if(Decision.is_root_decision(related_element))
+                    continue;
+
+                // --> Create edge
+                JsonObject edge = new JsonObject();
+                edge.addProperty("child", decision_name);
+                if(Decision.is_decision(related_element)){
+                    edge.addProperty("parent", Decision.get_element_name(related_element));
+                    edge.addProperty("operates_on", "NULL");  // This will somehow be extracted from the dependent decision
+                }
+                else{
+                    edge.addProperty("parent", "Root");
+                    edge.addProperty("operates_on", Decision.get_element_name(related_element));
+
+                    // --> Get items the related item generalizes
+
+                }
+                edges.add(edge);
+            }
         }
-
-        // --> Build: edges
-        JsonObject edge = new JsonObject();
-        edge.addProperty("parent", "Root");
-        edge.addProperty("child", "Instrument Selection");
-        edge.addProperty("operates_on", "instruments");
-        edges.add(edge);
-
-
-
-
-        graph_object.add("decisions", decisions);
-        graph_object.add("edges", edges);
+        Decision.showJsonElement("GRAPH OBJECT", graph_object);
         return graph_object;
     }
 
     public JsonObject buildAdgContextObject(DiagramPresentationElement adg_diagram_view){
+
+        // --> 1. Create context object
+        JOptionPane.showMessageDialog(null, "--> BUILDING CONTEXT OBJECT");
         JsonObject context_object = new JsonObject();
 
-        JsonArray insts = new JsonArray();
-
-
+        // --> 2. Iterate over non-root decisions
         Collection<Element> elements = adg_diagram_view.getUsedModelElements();
         for(Element element: elements) {
-            ArrayList<String> element_types = Decision.get_stereotypes(element);
-            if (!element_types.contains("Decision"))
+            if(!Decision.is_decision(element))
                 continue;
-            if (element_types.contains("Root"))
+            if(Decision.is_root_decision(element))
                 continue;
 
+            // --> 3. Iterate over decision dependencies (dep must not be decision)
             Collection<DirectedRelationship> relationships_source = element.get_directedRelationshipOfSource();
-            String decision_type = Decision.get_decision_type(element);
-            String decision_name = Decision.get_decision_name(element);
+            for(DirectedRelationship relationship: relationships_source) {
+                Element dependency_element = Decision.get_relationship_element_target(relationship);
+                if(Decision.is_decision(dependency_element))
+                    continue;
 
-            for(DirectedRelationship relationship: relationships_source){
-                Collection<Element> target_elements = relationship.getTarget();
-                Element inner_element = target_elements.iterator().next();
-                String inner_name = Decision.get_decision_name(inner_element);
-                JOptionPane.showMessageDialog(null, inner_name);
-                if(!inner_name.equals("Root")){
-                    JsonObject inner_json = new JsonObject();
-                    inner_json.addProperty("name", inner_name);
-                    insts.add(inner_json);
+                // --> 4. Extract key and items for decision context
+                String key = Decision.get_element_name(dependency_element);
+                JsonArray values = new JsonArray();
+                Collection<DirectedRelationship> dependency_element_relationships = dependency_element.get_directedRelationshipOfTarget();
+//                JOptionPane.showMessageDialog(null, "SIZE: " + dependency_element_relationships.size());
+                for(DirectedRelationship dependency_relationship: dependency_element_relationships) {
+                    String relationship_type = dependency_relationship.getHumanType();
+                    if(!relationship_type.equalsIgnoreCase("Generalization"))
+                        continue;
+
+                    Element dependency_inner_element = Decision.get_relationship_element_source(dependency_relationship);
+                    String dependency_inner_element_name = Decision.get_element_name(dependency_inner_element);
+
+                    JsonObject dependency_inner_object = new JsonObject();
+                    dependency_inner_object.addProperty("name", dependency_inner_element_name);
+                    values.add(dependency_inner_object);
+
+//                    JOptionPane.showMessageDialog(null, "INNER ELEMENT: " + dependency_inner_element_name);
                 }
+                context_object.add(key, values);
             }
         }
-
-
-        context_object.add("instruments", insts);
+        Decision.showJsonElement("CONTEXT OBJECT", context_object);
         return context_object;
     }
 
