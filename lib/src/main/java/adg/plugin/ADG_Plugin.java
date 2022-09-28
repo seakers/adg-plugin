@@ -101,6 +101,7 @@ public class ADG_Plugin extends Plugin{
         private final DefaultDiagramAction connect;
         private final DefaultDiagramAction random_design;
         private final DefaultDiagramAction crossover_designs;
+        private final DefaultDiagramAction gen_design_space;
 
         AbstractActionConfigurator() {
             this.set_algorithm = new SetAlgorithm();
@@ -109,6 +110,7 @@ public class ADG_Plugin extends Plugin{
             this.connect = new ConnectDB();
             this.random_design = new RandomDesign();
             this.crossover_designs = new CrossoverDesigns();
+            this.gen_design_space = new GenerateDesignSpace();
         }
 
         @Override
@@ -123,6 +125,7 @@ public class ADG_Plugin extends Plugin{
 
             ActionsCategory category2 = new ActionsCategory();
             mngr.addCategory(category2);
+            category2.addAction(this.gen_design_space);
             category2.addAction(this.random_design);
             category2.addAction(this.crossover_designs);
 

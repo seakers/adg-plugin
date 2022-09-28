@@ -13,6 +13,7 @@ import com.nomagic.magicdraw.ui.actions.DefaultDiagramAction;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.*;
 import com.teamdev.jxbrowser.js.Json;
+import graph.Graph;
 
 import javax.annotation.CheckForNull;
 import javax.swing.*;
@@ -52,28 +53,25 @@ public class BuildGraph extends DefaultDiagramAction {
 
 
         // JsonObject adg_specs = this.buildAdgSpecsExample(adg_diagram_view);
-        JsonObject adg_specs = this.buildAdgSpecs(adg_diagram_view);
-        JOptionPane.showMessageDialog(null, "EARLY RETURN");
-//
-//
-//        // --> 3. Build graph
-//        if(!Graph.buildInstance(conn.uri, conn.user, conn.password, formulation, problem, reset_nodes, reset_graphs, adg_specs)){
-//            JOptionPane.showMessageDialog(null, "ERROR: while building graph (check database connection)");
-//            return;
+        JsonObject adg_specs = BuildGraph.buildAdgSpecs(adg_diagram_view);
+        Decision.showJsonElement("ADG SPECS", adg_specs);
+
+
+        // --> 3. Build graph
+//        Graph graph = new Graph.Builder(formulation, problem, adg_specs)
+//                .buildDatabaseClient(conn.uri, conn.user, conn.password, true, true)
+//                .indexGraph()
+//                .buildTopologicalOrdering()
+//                .projectGraph()
+//                .build();
+//        if(graph.is_built){
+//            JOptionPane.showMessageDialog(null, "SUCCESS: graph build passed");
 //        }
-//
-//        // --> 4. Get graph instance / validate
-//        Graph graph = Graph.getInstance();
-//        if(!graph.isBuilt){
+//        else{
 //            JOptionPane.showMessageDialog(null, "ERROR: while building graph - build unsuccessful");
-//            return;
 //        }
-//
-//        JOptionPane.showMessageDialog(null, "SUCCESS: graph build passed");
+
     }
-
-
-
 
 
 
@@ -106,21 +104,21 @@ public class BuildGraph extends DefaultDiagramAction {
 
 
 
-    public JsonObject buildAdgSpecs(DiagramPresentationElement adg_diagram_view){
+    public static JsonObject buildAdgSpecs(DiagramPresentationElement adg_diagram_view){
         JsonObject adg_specs = new JsonObject();
 
         // --> 1. Create graph object
-        adg_specs.add("graph", this.buildAdgGraphObject(adg_diagram_view));
+        adg_specs.add("graph", BuildGraph.buildAdgGraphObject(adg_diagram_view));
 
         // --> 2. Create context object
-        adg_specs.add("inputs", this.buildAdgContextObject(adg_diagram_view));
+        adg_specs.add("inputs", BuildGraph.buildAdgContextObject(adg_diagram_view));
 
         // --> 3. Return specs
         return adg_specs;
     }
 
 
-    public JsonObject buildAdgGraphObject(DiagramPresentationElement adg_diagram_view){
+    public static JsonObject buildAdgGraphObject(DiagramPresentationElement adg_diagram_view){
 
         // --> 1. Build Graph JsonObject
         JOptionPane.showMessageDialog(null, "--> BUILDING GRAPH OBJECT");
@@ -179,7 +177,7 @@ public class BuildGraph extends DefaultDiagramAction {
         return graph_object;
     }
 
-    public JsonObject buildAdgContextObject(DiagramPresentationElement adg_diagram_view){
+    public static JsonObject buildAdgContextObject(DiagramPresentationElement adg_diagram_view){
 
         // --> 1. Create context object
         JOptionPane.showMessageDialog(null, "--> BUILDING CONTEXT OBJECT");

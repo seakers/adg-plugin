@@ -153,6 +153,10 @@ public class DiagramEvents implements PropertyChangeListener {
             Package decisions_package = project.getElementsFactory().createPackageInstance();
             decisions_package.setName("Decisions");
             decisions_package.setOwner(adg_package);
+
+            Package design_space_package = project.getElementsFactory().createPackageInstance();
+            design_space_package.setName("Design Space");
+            design_space_package.setOwner(adg_package);
         }
         return adg_package;
     }
@@ -181,7 +185,21 @@ public class DiagramEvents implements PropertyChangeListener {
                 return pkg;
             }
         }
-        JOptionPane.showMessageDialog(null, "Adg Decision Package Not Found");
+        JOptionPane.showMessageDialog(null, "Adg Design Package Not Found");
+        return null;
+    }
+
+    public static Package getAdgDesignSpacePackage(Project project, Diagram adg_diagram){
+        Package adg_package = DiagramEvents.getOrCreateAdgPackage(project, adg_diagram);
+        Collection<Package> subpackages = adg_package.getNestedPackage();
+        Iterator<Package> pkg_iterator = subpackages.stream().iterator();
+        while(pkg_iterator.hasNext()){
+            Package pkg = pkg_iterator.next();
+            if(pkg.getName().equals("Design Space")){
+                return pkg;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Adg Design Space Package Not Found");
         return null;
     }
 
