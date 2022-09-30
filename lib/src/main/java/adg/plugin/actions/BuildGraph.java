@@ -12,7 +12,6 @@ import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.actions.DefaultDiagramAction;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.*;
-import com.teamdev.jxbrowser.js.Json;
 import graph.Graph;
 
 import javax.annotation.CheckForNull;

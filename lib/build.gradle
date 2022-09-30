@@ -54,7 +54,10 @@ repositories {
 dependencies {
 
     // --> Cameo OpenAPI tools
-    implementation fileTree(CAMEO_LIB_PATH) { include '*.jar' }
+    implementation fileTree(CAMEO_LIB_PATH) {
+        include '**/*.jar'
+        exclude 'gson-2.2.4.jar'
+    }
 
     // Neo4j
     implementation'org.neo4j.driver:neo4j-java-driver:4.1.1'

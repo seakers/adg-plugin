@@ -1,6 +1,5 @@
 package adg.plugin.graph;
 
-import com.nomagic.ci.persistence.local.a.J;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
