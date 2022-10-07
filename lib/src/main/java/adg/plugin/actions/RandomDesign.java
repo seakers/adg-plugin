@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.nomagic.ci.persistence.local.a.J;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.MainFrame;
@@ -21,7 +20,6 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Diagram;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
-import com.teamdev.jxbrowser.js.Json;
 import graph.Graph;
 
 import javax.annotation.CheckForNull;
@@ -49,7 +47,7 @@ public class RandomDesign extends DefaultDiagramAction {
 
         // --> 1. Get adg graph instance and validate it is built
         Graph graph = Graph.getInstance();
-        if(!graph.isBuilt){
+        if(!graph.is_built){
             JOptionPane.showMessageDialog(null, "ERROR: graph not built");
             return;
         }

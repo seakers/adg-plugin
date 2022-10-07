@@ -41,30 +41,6 @@ public class ValidateGraph extends DefaultDiagramAction {
         this.validate(project);
 
 
-
-//        // --> 3. Get all Enumeration elements from model root
-//        java.lang.Class<?>[] types = new java.lang.Class<?>[]{Enumeration.class};
-//        Collection<Enumeration> elements = Finder.byType().find(model, types, false);
-//
-//        // --> 4. Iterate over enumeration elements and handle
-//        JOptionPane.showMessageDialog(mainFrame, Integer.toString(elements.size()) + " Enum Elements");
-//        for(Enumeration element: elements){
-//            String element_name = element.getName();
-//            String element_type = element.getHumanType();
-//            String element_info = element_name + ": ";
-//            List<EnumerationLiteral> options = element.getOwnedLiteral();
-//            for(EnumerationLiteral option: options){
-//                element_info += (option.getName() + " ");
-//            }
-//            JOptionPane.showMessageDialog(mainFrame, element_info);
-//
-////            List<Property> properties = element.getOwnedAttribute();
-////            for(Property prop: properties){
-////                String prop_info = prop.getName() + " - " + prop.getDefaultValue().toString();
-////                JOptionPane.showMessageDialog(mainFrame, prop_info);
-////            }
-//
-//        }
     }
 
     public void validate(Project project){
@@ -76,34 +52,11 @@ public class ValidateGraph extends DefaultDiagramAction {
         // List<PresentationElement>  diagram_elements = diagram.getPresentationElements();
 
         // --> 2. Extract design decisions
-        this.extractDecisions(diagram_elements);
 
 
 
 
     }
-
-
-    public ArrayList<Element> extractDecisions(Collection<Element> diagram_elements){
-        MainFrame mainFrame = Application.getInstance().getMainFrame();
-
-        ArrayList<Element> decision_elements = new ArrayList<>();
-        for(Element element: diagram_elements){
-            List<Stereotype> element_types = element.getAppliedStereotype();
-            for(Stereotype element_type: element_types){
-                String element_type_name = element_type.getName();
-                if(element_type_name.equalsIgnoreCase("Decision")){
-                    decision_elements.add(element);
-                    break;
-                }
-            }
-        }
-
-        String info = "Number of Decisions: " + decision_elements.size();
-        JOptionPane.showMessageDialog(mainFrame, info);
-        return decision_elements;
-    }
-
 
 
 }

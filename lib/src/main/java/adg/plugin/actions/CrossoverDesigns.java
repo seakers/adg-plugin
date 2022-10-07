@@ -31,7 +31,7 @@ public class CrossoverDesigns extends DefaultDiagramAction {
 
         // --> 1. Get adg graph instance and validate it is built
         Graph graph = Graph.getInstance();
-        if(!graph.isBuilt){
+        if(!graph.is_built){
             JOptionPane.showMessageDialog(null, "ERROR: graph not built");
             return;
         }

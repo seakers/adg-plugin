@@ -2,6 +2,7 @@ package adg.plugin.decisions;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
@@ -13,12 +14,23 @@ public class Decision {
 
     public static String[] types = new String[]{"DownSelecting", "Assigning", "Partitioning", "Permuting", "Connecting", "StandardForm"};
 
+//    public static ArrayList<String> get_stereotypes2(Element element){
+//        ArrayList<String> return_list = new ArrayList<>();
+//        List<Stereotype> element_stereotypes = element.getAppliedStereotype();
+//        for(Stereotype stereo: element_stereotypes){
+//            return_list.add(stereo.getName());
+//        }
+//        return return_list;
+//    }
+
     public static ArrayList<String> get_stereotypes(Element element){
         ArrayList<String> return_list = new ArrayList<>();
-        List<Stereotype> element_stereotypes = element.getAppliedStereotype();
-        for(Stereotype stereo: element_stereotypes){
-            return_list.add(stereo.getName());
+        List<Element> element_list = Arrays.asList(element);
+        Set<Stereotype> element_stereotypes = StereotypesHelper.getAllAssignedStereotypes(element_list);
+        for(Stereotype stype: element_stereotypes){
+            return_list.add(stype.getName());
         }
+        Decision.showMessage("ELEMENT STEREOTYPES", String.join(", ", return_list));
         return return_list;
     }
 
@@ -69,5 +81,9 @@ public class Decision {
 
     public static void showJsonElement(String description, JsonElement element){
         JOptionPane.showMessageDialog(null, "---> " + description + " | " + new Gson().toJson(element));
+    }
+
+    public static void showMessage(String description, String message){
+        JOptionPane.showMessageDialog(null, "---> " + description + " | " + message);
     }
 }
