@@ -24,17 +24,6 @@ def LOCAL_ADG_PLUGIN_PATH = rootDir.getPath() + File.separator + 'adg'
 def LOCAL_ADG_API_PATH = rootDir.getPath() + File.separator + 'adg' + File.separator + 'decision-graph.jar'
 
 
-//buildTypes {
-//    debug {
-//        buildConfigField "String", "CAMEO_PATH", "$LOCAL_ADG_PLUGIN_PATH"
-//    }
-//
-//    release {
-//        buildConfigField "String", "CAMEO_PATH", "$LOCAL_ADG_PLUGIN_PATH"
-//    }
-//}
-
-
 
 
 //     ____        _ _     _
