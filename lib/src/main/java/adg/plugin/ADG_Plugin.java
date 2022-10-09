@@ -110,7 +110,7 @@ public class ADG_Plugin extends Plugin{
             this.connect = new ConnectDB();
             this.random_design = new RandomDesign();
             this.crossover_designs = new CrossoverDesigns();
-            this.gen_design_space = new GenerateDesignSpace();
+            this.gen_design_space = new GenerateSystemArchitectureModel();
         }
 
         @Override

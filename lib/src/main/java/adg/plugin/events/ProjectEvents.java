@@ -29,11 +29,4 @@ public class ProjectEvents extends ProjectEventListenerAdapter {
         this.diagram_listener_adapter.uninstall(project);
     }
 
-
-
-
-
-
-
-
 }

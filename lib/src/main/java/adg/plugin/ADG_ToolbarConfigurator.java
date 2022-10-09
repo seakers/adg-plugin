@@ -65,6 +65,7 @@ public class ADG_ToolbarConfigurator extends BaseDiagramToolbarConfigurator {
         category.addAction(actions.getActionFor(PermutingDecision.DRAW_PERMUTING_ACTION));
         category.addAction(actions.getActionFor(RootDecision.DRAW_ROOT_ACTION));
         category.addAction(actions.getActionFor(StandardFormDecision.DRAW_STANDARD_FORM_ACTION));
+        category.addAction(actions.getActionFor(ElementSet.DRAW_ELEMENT_SET_ACTION));
 
         category.addAction(actions.getActionFor("ADD_DEPENDENCY"));
     }

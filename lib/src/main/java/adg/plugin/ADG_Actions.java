@@ -52,6 +52,7 @@ public class ADG_Actions {
         NMAction drawStandardFormAction  = new StandardFormDecision();
         NMAction drawPermutingAction     = new PermutingDecision();
         NMAction drawRootAction          = new RootDecision();
+        NMAction drawElementSetAction    = new ElementSet();
 
 
         // --> 2. Put into categories
@@ -68,6 +69,7 @@ public class ADG_Actions {
         category.addAction(drawStandardFormAction);
         category.addAction(drawPermutingAction);
         category.addAction(drawRootAction);
+        category.addAction(drawElementSetAction);
 
 
 

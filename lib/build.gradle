@@ -17,6 +17,7 @@ plugins {
 def CAMEO_PATH = 'C:\\Program Files\\Cameo Systems Modeler'
 def CAMEO_LIB_PATH = CAMEO_PATH + File.separator + 'lib'
 def CAMEO_PLUGINS_PATH = CAMEO_PATH + File.separator + 'plugins'
+def CAMEO_SYSML_PLUGIN_PATH = CAMEO_PLUGINS_PATH + File.separator + 'com.nomagic.magicdraw.sysml'
 def CAMEO_ADG_PLUGIN_PATH = CAMEO_PLUGINS_PATH + File.separator + 'adg'
 
 def LOCAL_ADG_PLUGIN_PATH = rootDir.getPath() + File.separator + 'adg'
@@ -45,6 +46,11 @@ dependencies {
     implementation fileTree(CAMEO_LIB_PATH) {
         include '**/*.jar'
         exclude 'gson-2.2.4.jar'
+    }
+
+    // --> Cameo SysMl plugin
+    implementation fileTree(CAMEO_SYSML_PLUGIN_PATH) {
+        include '*.jar'
     }
 
     // Neo4j

@@ -1,6 +1,7 @@
 package adg.plugin.graph;
 
 import adg.plugin.events.DiagramEvents;
+import adg.plugin.packages.DiagramsPackage;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -16,7 +17,7 @@ public class DesignsHelper {
         Project project = Application.getInstance().getProject();
 
         // --> 1. Get Adg Design Package
-        Package designs_package = DiagramEvents.getAdgDesignPackage(project, project.getActiveDiagram().getDiagram());
+        Package designs_package = DiagramsPackage.getAdgGeneratedDesignsPackage(project, project.getActiveDiagram().getDiagram());
 
         // --> 2. Create new package for new design (maybe ensure this doesn't exist first)
         Package design_pkg = project.getElementsFactory().createPackageInstance();

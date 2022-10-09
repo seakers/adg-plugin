@@ -18,7 +18,7 @@ public class ADG_Descriptor extends DiagramDescriptor{
 
 
     public static final String ARCHITECTURE_DECISION_GRAPH = "Architecture Decision Graph";
-    public static final String ICON_PATH = "/Applications/Cameo Systems Modeler Demo/plugins/adg/icons/addicon1.svg";
+    public static final String ICON_PATH = "C:\\Program Files\\Cameo Systems Modeler\\plugins\\adg\\icons\\addicon1.svg";
 
     @Override
     public String getDiagramTypeId()
