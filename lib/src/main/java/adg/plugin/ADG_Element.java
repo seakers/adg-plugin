@@ -1,6 +1,7 @@
 package adg.plugin;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -15,7 +16,9 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import javax.swing.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class ADG_Element {
@@ -114,6 +117,72 @@ public class ADG_Element {
         return inner_element;
     }
 
+    public static ArrayList<Element> getDecisionDependencies(Element decision){
+        ArrayList<Element> dependencies = new ArrayList<>();
+        Collection<DirectedRelationship> relationships_source = decision.get_directedRelationshipOfSource();
+        for(DirectedRelationship relationship: relationships_source){
+            Element related_element = ADG_Element.getRelationshipElementTarget(relationship);
+            if(ADG_Element.isDecision(related_element) || ADG_Element.isElementSet(related_element)){
+                dependencies.add(related_element);
+            }
+        }
+        return dependencies;
+    }
+
+    public static ArrayList<Element> getElementSetDependencies(Element element_set){
+        ArrayList<Element> dependencies = new ArrayList<>();
+        Collection<Element> owned_elements = element_set.getOwnedElement();
+        for(Element ele: owned_elements){
+            if(ele instanceof Property){
+                Property prop = (Property) ele;
+                dependencies.add(prop);
+            }
+        }
+        return dependencies;
+    }
+
+    public static String getElementSetItemName(Element element){
+        Property prop = (Property) element;
+        return prop.getType().getName();
+    }
+
+    public static String getElementSetItemMultiplicity(Element element){
+        // --> Property Multiplicity
+        // [*] = (0, -1)
+        // [0...1] = (0, 1)
+        // [1] = (1, 1)
+        // [1...*] = (1, -1)
+        // [0...*] = (0, -1) -- Redundant -- not included
+        Property prop = (Property) element;
+        int lower = prop.getLower();
+        int upper = prop.getUpper();
+        if(lower == 0 && upper == -1){
+            return "[*]";
+        }
+        else if(lower == 0 && upper == 1){
+            return "[0...1]";
+        }
+        else if(lower == 1 && upper == 1){
+            return "[1]";
+        }
+        else if(lower == 1 && upper == -1){
+            return "[1...*]";
+        }
+        return "undefined";
+    }
+
+    public static DirectedRelationship getRelationship(Element parent, Element child){
+        Collection<DirectedRelationship> relationships_source = child.get_directedRelationshipOfSource();
+        for(DirectedRelationship relationship: relationships_source) {
+            Element related_element = ADG_Element.getRelationshipElementTarget(relationship);
+            if(related_element.getID() == parent.getID()){
+                return relationship;
+            }
+        }
+        return null;
+    }
+
+
 
     // ------------------
     // --- Properties ---
@@ -129,33 +198,9 @@ public class ADG_Element {
         return ele_types.contains("Decision");
     }
 
-    public static boolean validateDecision(Element element){
-        ArrayList<String> ele_types = ADG_Element.getStereotypes(element);
-        if(!ele_types.contains("Decision")){
-            return false;
-        }
-
-        // --> Ensure each decision is dependent on either another decision or an element set
-
-
-        return true;
-    }
-
     public static boolean isElementSet(Element element){
         ArrayList<String> ele_types = ADG_Element.getStereotypes(element);
         return ele_types.contains("ElementSet");
-    }
-
-    public static boolean validateElementSet(Element element){
-        ArrayList<String> ele_types = ADG_Element.getStereotypes(element);
-        if(!ele_types.contains("ElementSet")){
-            return false;
-        }
-
-        // --> Ensure each element set has objects in the set
-
-
-        return true;
     }
 
     public static boolean isRootDecision(Element element) {
@@ -164,22 +209,51 @@ public class ADG_Element {
     }
 
 
+
+
+    // ------------------
+    // --- Validation ---
+    // ------------------
+
+    public static boolean validateDecision(Element element){
+        ArrayList<String> ele_types = ADG_Element.getStereotypes(element);
+        if(!ele_types.contains("Decision")){
+            return false;
+        }
+
+        // --> Must depend on: decision or element set
+        ArrayList<Element> dependencies = ADG_Element.getDecisionDependencies(element);
+        return !dependencies.isEmpty();
+    }
+
+    public static boolean validateElementSet(Element element){
+        ArrayList<String> ele_types = ADG_Element.getStereotypes(element);
+        if(!ele_types.contains("ElementSet")){
+            return false;
+        }
+
+        // --> Must have a set of dependency elements
+        ArrayList<Element> dependencies = ADG_Element.getElementSetDependencies(element);
+        return !dependencies.isEmpty();
+    }
+
+
     // -----------------------
     // --- Debug Functions ---
     // -----------------------
 
     public static void showJsonElement(String description, JsonElement element){
-        JOptionPane.showMessageDialog(null, "---> " + description + " | " + new Gson().toJson(element));
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JOptionPane.showMessageDialog(null, "---> " + description + "\n" + gson.toJson(element));
     }
 
     public static void showMessage(String description, String message){
-        JOptionPane.showMessageDialog(null, "---> " + description + " | " + message);
+        JOptionPane.showMessageDialog(null, "---> " + description + "\n" + message);
     }
 
     public static void showCameoElement(String description, Element message){
-        JOptionPane.showMessageDialog(null, "---> " + description + " | " + message.getHumanName() + " | " + message.getHumanType());
+        JOptionPane.showMessageDialog(null, "---> " + description +
+                "\n --> getHumanName() " + message.getHumanName() +
+                "\n --> getHumanType() " + message.getHumanType());
     }
-
-
-
 }

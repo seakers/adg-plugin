@@ -48,7 +48,7 @@ public class ADG_Diagram {
         DiagramPresentationElement adg_diagram_view = ADG_Diagram.getActiveDiagramView();
         Collection<Element> elements = adg_diagram_view.getUsedModelElements();
         for(Element element: elements){
-            if(!ADG_Element.isElementSet(element))
+            if(ADG_Element.isElementSet(element))
                 element_sets.add(element);
         }
         return element_sets;
@@ -63,6 +63,16 @@ public class ADG_Diagram {
                 decisions.add(element);
         }
         return decisions;
+    }
+
+    public static Element findDecision(ArrayList<Element> decisions, String search_name){
+        for(Element decision: decisions){
+            String decision_name = ADG_Element.getElementName(decision);
+            if(decision_name == search_name){
+                return decision;
+            }
+        }
+        return null;
     }
 
 

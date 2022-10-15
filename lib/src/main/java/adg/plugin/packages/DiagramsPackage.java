@@ -114,9 +114,9 @@ public class DiagramsPackage {
     // --> 4. System Architecture
 
 
-    // -----------------
-    // --- Decisions ---
-    // -----------------
+    // -------------------------
+    // --- Decisions Package ---
+    // -------------------------
 
     public static Package getAdgDecisionsPackage(Project project, Diagram adg_diagram){
         Package adg_package = DiagramsPackage.getOrCreateAdgPackage(project, adg_diagram);
@@ -142,9 +142,9 @@ public class DiagramsPackage {
     }
 
 
-    // -------------------------
-    // --- Generated Designs ---
-    // -------------------------
+    // ---------------------------------
+    // --- Generated Designs Package ---
+    // ---------------------------------
 
     public static Package getAdgGeneratedDesignsPackage(Project project, Diagram adg_diagram){
         Package adg_package = DiagramsPackage.getOrCreateAdgPackage(project, adg_diagram);
@@ -163,9 +163,9 @@ public class DiagramsPackage {
 
 
 
-    // --------------------
-    // --- Design Space ---
-    // --------------------
+    // ----------------------------
+    // --- Design Space Package ---
+    // ----------------------------
 
     public static Package getAdgDesignSpacePackage(Project project, Diagram adg_diagram){
         Package adg_package = DiagramsPackage.getOrCreateAdgPackage(project, adg_diagram);
@@ -185,9 +185,9 @@ public class DiagramsPackage {
 
 
 
-    // ---------------------------
-    // --- System Architecture ---
-    // ---------------------------
+    // -----------------------------------
+    // --- System Architecture Package ---
+    // -----------------------------------
 
     public static Package getAdgSystemArchitecturePackage(Diagram adg_diagram){
         Project project = Application.getInstance().getProject();
@@ -219,6 +219,8 @@ public class DiagramsPackage {
     }
 
     public static void cleanAdgSystemArchitectureModel(Diagram adg_diagram){
+
+        // --> Delete System Architecture Elements
         Project project = Application.getInstance().getProject();
         Package sys_arch_pkg = DiagramsPackage.getAdgSystemArchitecturePackage(adg_diagram);
         Collection<PackageableElement> subpackages = sys_arch_pkg.getPackagedElement();
@@ -258,10 +260,6 @@ public class DiagramsPackage {
         return diagram;
     }
 
-
-    // ---------------
-    // --- Helpers ---
-    // ---------------
 
 
 

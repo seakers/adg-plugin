@@ -10,6 +10,8 @@ import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.*;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
+import graph.Graph;
+import org.neo4j.driver.Record;
 
 import javax.annotation.CheckForNull;
 import javax.swing.*;
@@ -34,14 +36,10 @@ public class GenerateSystemArchitectureModel extends DefaultDiagramAction {
 
         // --> 1. Get ADG Diagram
         DiagramPresentationElement adg_diagram_view = ADG_Diagram.getActiveDiagramView();
-        if(adg_diagram_view == null){
-            ADG_Element.showMessage("getActiveDiagramView", "null");
-            return;
-        }
-        Diagram adg_diagram = ADG_Diagram.getActiveDiagram();
+        Diagram                    adg_diagram      = ADG_Diagram.getActiveDiagram();
 
 
-        // --> 2. Check to see if previous generation exists
+        // --> 2. Clean previous model if exists
         Package sys_arch_pkg = DiagramsPackage.getAdgSystemArchitecturePackage(adg_diagram);
         Class arch_model = DiagramsPackage.getAdgSystemArchitectureModel(adg_diagram);
         if(arch_model != null){
@@ -57,14 +55,9 @@ public class GenerateSystemArchitectureModel extends DefaultDiagramAction {
 
         // --> 3. Create System Architecture BDD
         Diagram sys_arch_diagram = DiagramsPackage.createAdgSystemArchitectureDiagram(adg_diagram);
-        if(sys_arch_diagram == null){
-            ADG_Element.showMessage("createAdgSystemArchitectureDiagram", "null");
-            return;
-        }
 
         // --> 4. Create System Architecture Model
         GenerateSystemArchitectureModel.buildSystemArchitectureModel(adg_diagram_view, sys_arch_diagram);
-
     }
 
 
@@ -88,36 +81,41 @@ public class GenerateSystemArchitectureModel extends DefaultDiagramAction {
 
         // --> 4. Validate diagram elements
         for(Element ele: decisions){
-            ADG_Element.showCameoElement("validating decision", ele);
-            ADG_Element.validateDecision(ele);
+            ADG_Element.showCameoElement("Validating Decision", ele);
+            if(!ADG_Element.validateDecision(ele)){
+                ADG_Element.showCameoElement("INVALID DECISION", ele);
+            }
         }
         for(Element ele: element_sets){
-            ADG_Element.showCameoElement("validating element set", ele);
-            ADG_Element.validateElementSet(ele);
+            ADG_Element.showCameoElement("Validating ElementSet", ele);
+            if(!ADG_Element.validateElementSet(ele)){
+                ADG_Element.showCameoElement("INVALID ELEMENT SET", ele);
+            }
         }
 
-        // --> 4. Make sure each decision is dependent on either another decision or an element set
+        // --> 5. Get topological ordering of nodes
+        Graph graph = BuildGraph.getAdgGraph();
+        if(graph == null){
+            return null;
+        }
+        for(Record node: graph.topologicalNodes){
+            String node_name = Graph.getNodeName(node);
+            if(node_name == "Root")
+                continue;
+
+            Element decision = ADG_Diagram.findDecision(decisions, node_name);
+        }
 
 
 
-//        // --> .... Populate arch element
-//        Collection<Element> elements = adg_diagram_view.getUsedModelElements();
-//        for(Element element: elements){
-//            if(!Decision.is_decision(element))
-//                continue;
-//            if(Decision.is_root_decision(element))
-//                continue;
-//
-//
-//
-//
-//
-//
-//        }
+
 
 
         return arch_element;
     }
+
+
+
 
 
 }

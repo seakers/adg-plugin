@@ -1,17 +1,21 @@
 package adg.plugin.actions;
 
 import adg.plugin.ADG_Descriptor;
+import adg.plugin.ADG_Diagram;
 import adg.plugin.ADG_Element;
 import adg.plugin.graph.AlgorithmParameters;
 import adg.plugin.graph.ConnectionParameters;
+import adg.plugin.packages.DiagramsPackage;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.nomagic.esi.common.a.J;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
 import com.nomagic.magicdraw.ui.actions.DefaultDiagramAction;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.*;
+import graph.Graph;
 
 import javax.annotation.CheckForNull;
 import javax.swing.*;
@@ -19,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class BuildGraph extends DefaultDiagramAction {
@@ -31,17 +36,48 @@ public class BuildGraph extends DefaultDiagramAction {
 
     @Override
     public void actionPerformed(@CheckForNull ActionEvent e) {
+        BuildGraph.buildAdgGraph();
+    }
+
+
+    public static Graph getAdgGraph(){
+        Graph curr_graph = Graph.getInstance();
+        if(!curr_graph.is_built){
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog (null, "Warning, no graph has been built. Build graph?","Warning",dialogButton);
+            if(dialogResult == JOptionPane.YES_OPTION){
+                return BuildGraph.buildAdgGraph();
+            }
+            else{
+                return null;
+            }
+        }
+        else{
+            return curr_graph;
+        }
+    }
+
+    public static Graph buildAdgGraph(){
         Project project = Application.getInstance().getProject();
 
-        // --> 1. Get diagram and validate correct type
-        DiagramPresentationElement adg_diagram_view = project.getActiveDiagram();
-        if(!adg_diagram_view.getDiagramType().getType().equals(ADG_Descriptor.ARCHITECTURE_DECISION_GRAPH)){
-            JOptionPane.showMessageDialog(null, "ERROR: active diagram must be of type ADG");
-            return;
+        // --> 1. Check if graph already exists
+        Graph curr_graph = Graph.getInstance();
+        if(curr_graph.is_built){
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog (null, "Warning, a graph is already built. Use the existing one?","Warning",dialogButton);
+            if(dialogResult == JOptionPane.YES_OPTION){
+                return curr_graph;
+            }
+            else{
+                System.out.println("--> CLEAN ADG PACKAGE FOR NEW GRAPH...");
+            }
         }
+
+        // --> 2. Get diagram and validate correct type
+        DiagramPresentationElement adg_diagram_view = project.getActiveDiagram();
         Diagram adg_diagram = project.getActiveDiagram().getDiagram();
 
-        // --> 2. Get graph parameters / specs
+        // --> 3. Get algorithm parameters
         AlgorithmParameters algo = AlgorithmParameters.getInstance();
         ConnectionParameters conn = ConnectionParameters.getInstance();
         String formulation = adg_diagram.getName();
@@ -49,31 +85,31 @@ public class BuildGraph extends DefaultDiagramAction {
         boolean reset_nodes = true;
         boolean reset_graphs = true;
 
+        // --> 4. Get graph specifications
+        // JsonObject adg_specs = BuildGraph.buildAdgSpecsExample();
+        JsonObject adg_specs = BuildGraph.buildAdgSpecs();
 
-        // JsonObject adg_specs = this.buildAdgSpecsExample(adg_diagram_view);
-        JsonObject adg_specs = BuildGraph.buildAdgSpecs(adg_diagram_view);
-        ADG_Element.showJsonElement("ADG SPECS", adg_specs);
 
-
-        // --> 3. Build graph
-//        Graph graph = new Graph.Builder(formulation, problem, adg_specs)
-//                .buildDatabaseClient(conn.uri, conn.user, conn.password, true, true)
-//                .indexGraph()
-//                .buildTopologicalOrdering()
-//                .projectGraph()
-//                .build();
-//        if(graph.is_built){
-//            JOptionPane.showMessageDialog(null, "SUCCESS: graph build passed");
-//        }
-//        else{
-//            JOptionPane.showMessageDialog(null, "ERROR: while building graph - build unsuccessful");
-//        }
-
+        // --> 5. Build graph
+        Graph graph = new Graph.Builder(formulation, problem, adg_specs)
+                .buildDatabaseClient(conn.uri, conn.user, conn.password, true, true)
+                .indexGraph()
+                .buildTopologicalOrdering()
+                .projectGraph()
+                .build();
+        if(graph.is_built){
+            JOptionPane.showMessageDialog(null, "SUCCESS: graph build passed");
+            return graph;
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "ERROR: while building graph - build unsuccessful");
+            return null;
+        }
     }
 
 
 
-    public JsonObject buildAdgSpecsExample(DiagramPresentationElement adg_diagram_view){
+    public static JsonObject buildAdgSpecsExample(){
         JsonObject adg_specs = new JsonObject();
 
         String graph_file = "C:\\Program Files\\Cameo Systems Modeler Demo\\plugins\\adg\\formulations\\EOSS\\graph.json";
@@ -96,25 +132,22 @@ public class BuildGraph extends DefaultDiagramAction {
         return adg_specs;
     }
 
-
-
-    public static JsonObject buildAdgSpecs(DiagramPresentationElement adg_diagram_view){
+    public static JsonObject buildAdgSpecs(){
         JsonObject adg_specs = new JsonObject();
 
         // --> 1. Create graph object
-        adg_specs.add("graph", BuildGraph.buildAdgGraphObject(adg_diagram_view));
+        adg_specs.add("graph", BuildGraph.buildAdgGraphObject());
 
         // --> 2. Create context object
-        adg_specs.add("inputs", BuildGraph.buildAdgContextObject(adg_diagram_view));
+        adg_specs.add("inputs", BuildGraph.buildAdgContextObject());
 
         // --> 3. Return specs
         return adg_specs;
     }
 
-    public static JsonObject buildAdgGraphObject(DiagramPresentationElement adg_diagram_view){
+    public static JsonObject buildAdgGraphObject(){
 
         // --> 1. Build Graph JsonObject
-        JOptionPane.showMessageDialog(null, "--> BUILDING GRAPH OBJECT");
         JsonObject graph_object = new JsonObject();
         JsonArray decisions = new JsonArray();
         JsonArray edges = new JsonArray();
@@ -123,15 +156,10 @@ public class BuildGraph extends DefaultDiagramAction {
 
 
         // --> 2. Populate Decisions / Edges
-        Collection<Element> elements = adg_diagram_view.getUsedModelElements();
-        for(Element element: elements){
-            if(!ADG_Element.isDecision(element))
-                continue;
-            if(ADG_Element.isRootDecision(element))
-                continue;
+        ArrayList<Element> elements = ADG_Diagram.getDecisions();
+        for(Element decision_element: elements){
 
             // --> Get decision object
-            Element decision_element = element;
             String decision_type = ADG_Element.getDecisionType(decision_element);
             String decision_name = ADG_Element.getElementName(decision_element);
 
@@ -140,28 +168,25 @@ public class BuildGraph extends DefaultDiagramAction {
             decision.addProperty("name", decision_name);
             decision.addProperty("type", decision_type);
             decisions.add(decision);
-            JOptionPane.showMessageDialog(null, "- " + decision_name + " " + decision_type);
 
-            // --> Enter decision edges
-            Collection<DirectedRelationship> relationships_source = element.get_directedRelationshipOfSource();
-            for(DirectedRelationship relationship: relationships_source){
-                Element related_element = ADG_Element.getRelationshipElementTarget(relationship);
-                if(ADG_Element.isRootDecision(related_element))
-                    continue;
+            // --> Iterate over edges
+            ArrayList<Element> dependencies = ADG_Element.getDecisionDependencies(decision_element);
+            for(Element related_element: dependencies){
 
                 // --> Create edge
                 JsonObject edge = new JsonObject();
                 edge.addProperty("child", decision_name);
                 if(ADG_Element.isDecision(related_element)){
+                    DirectedRelationship relationship = ADG_Element.getRelationship(related_element, decision_element);
                     edge.addProperty("parent", ADG_Element.getElementName(related_element));
-                    edge.addProperty("operates_on", "NULL");  // This will somehow be extracted from the dependent decision
+                    edge.addProperty("operates_on", ADG_Element.getElementName(relationship));
                 }
-                else{
+                else if(ADG_Element.isElementSet(related_element)){
                     edge.addProperty("parent", "Root");
                     edge.addProperty("operates_on", ADG_Element.getElementName(related_element));
-
-                    // --> Get items the related item generalizes
-
+                }
+                else{
+                    continue;
                 }
                 edges.add(edge);
             }
@@ -170,52 +195,35 @@ public class BuildGraph extends DefaultDiagramAction {
         return graph_object;
     }
 
-    public static JsonObject buildAdgContextObject(DiagramPresentationElement adg_diagram_view){
+    public static JsonObject buildAdgContextObject(){
 
         // --> 1. Create context object
-        JOptionPane.showMessageDialog(null, "--> BUILDING CONTEXT OBJECT");
         JsonObject context_object = new JsonObject();
 
-        // --> 2. Iterate over non-root decisions
-        Collection<Element> elements = adg_diagram_view.getUsedModelElements();
-        for(Element element: elements) {
-            if(!ADG_Element.isDecision(element))
-                continue;
-            if(ADG_Element.isRootDecision(element))
-                continue;
 
-            // --> 3. Iterate over decision dependencies (dep must not be decision)
-            Collection<DirectedRelationship> relationships_source = element.get_directedRelationshipOfSource();
-            for(DirectedRelationship relationship: relationships_source) {
-                Element dependency_element = ADG_Element.getRelationshipElementTarget(relationship);
-                if(ADG_Element.isDecision(dependency_element))
-                    continue;
+        // --> 2. For each element set, get key / values
+        ArrayList<Element> element_sets = ADG_Diagram.getElementSets();
+        for(Element element_set: element_sets){
 
-                // --> 4. Extract key and items for decision context
-                String key = ADG_Element.getElementName(dependency_element);
-                JsonArray values = new JsonArray();
-                Collection<DirectedRelationship> dependency_element_relationships = dependency_element.get_directedRelationshipOfTarget();
-//                JOptionPane.showMessageDialog(null, "SIZE: " + dependency_element_relationships.size());
-                for(DirectedRelationship dependency_relationship: dependency_element_relationships) {
-                    String relationship_type = dependency_relationship.getHumanType();
-                    if(!relationship_type.equalsIgnoreCase("Generalization"))
-                        continue;
+            // --> Key
+            String key = ADG_Element.getElementName(element_set);
 
-                    Element dependency_inner_element = ADG_Element.getRelationshipElementSource(dependency_relationship);
-                    String dependency_inner_element_name = ADG_Element.getElementName(dependency_inner_element);
-
-                    JsonObject dependency_inner_object = new JsonObject();
-                    dependency_inner_object.addProperty("name", dependency_inner_element_name);
-                    values.add(dependency_inner_object);
-
-//                    JOptionPane.showMessageDialog(null, "INNER ELEMENT: " + dependency_inner_element_name);
-                }
-                context_object.add(key, values);
+            // --> Values
+            JsonArray values = new JsonArray();
+            ArrayList<Element> element_set_items = ADG_Element.getElementSetDependencies(element_set);
+            for(Element element_set_item: element_set_items){
+                JsonObject value = new JsonObject();
+                value.addProperty("name", ADG_Element.getElementSetItemName(element_set_item));
+                value.addProperty("multiplicity", ADG_Element.getElementSetItemMultiplicity(element_set_item));
+                values.add(value);
             }
+
+            context_object.add(key, values);
         }
+
+        // --> 3. Return
         ADG_Element.showJsonElement("CONTEXT OBJECT", context_object);
         return context_object;
     }
-
 
 }

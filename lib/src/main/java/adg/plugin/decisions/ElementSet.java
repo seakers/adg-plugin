@@ -25,8 +25,7 @@ public class ElementSet extends DrawShapeDiagramAction {
 
     public static final String DRAW_ELEMENT_SET_ACTION = "DRAW_ELEMENT_SET_ACTION";
 
-    public ElementSet()
-    {
+    public ElementSet() {
         super(DRAW_ELEMENT_SET_ACTION, "Element Set", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
         //noinspection OverridableMethodCallDuringObjectConstruction,SpellCheckingInspection
         setLargeIcon(SquareIcon.fitOrCenter(new ScalableImageIcon(getClass(), "icons/myclass.svg"), 16));
