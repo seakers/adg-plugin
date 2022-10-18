@@ -56,7 +56,8 @@ public class RandomDesign extends DefaultDiagramAction {
         try{
             int design_idx = graph.generateRandomDesign();
             JOptionPane.showMessageDialog(null, "SUCCESS: random design id " + design_idx + " - writing design to project");
-            DesignsHelper.writeDesign(graph.designs.get(design_idx).getAsJsonObject(), design_idx);
+            // DesignsHelper.writeDesign(graph.designs.get(design_idx).getAsJsonObject(), design_idx);
+            DesignsHelper.writeDesignOld(graph.getDesignObject(design_idx), design_idx);
         }
         catch (Exception ex){
             ex.printStackTrace();

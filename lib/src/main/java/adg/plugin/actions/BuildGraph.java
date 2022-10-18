@@ -70,12 +70,15 @@ public class BuildGraph extends DefaultDiagramAction {
             }
             else{
                 System.out.println("--> CLEAN ADG PACKAGE FOR NEW GRAPH...");
+                DiagramsPackage.cleanAdgDesignSpacePackage();
+                DiagramsPackage.cleanAdgSystemArchitectureModel(ADG_Diagram.getActiveDiagram());
+                DiagramsPackage.cleanAdgGeneratedDesignsPackage();
             }
         }
 
         // --> 2. Get diagram and validate correct type
-        DiagramPresentationElement adg_diagram_view = project.getActiveDiagram();
-        Diagram adg_diagram = project.getActiveDiagram().getDiagram();
+        DiagramPresentationElement adg_diagram_view = ADG_Diagram.getActiveDiagramView();
+        Diagram adg_diagram = ADG_Diagram.getActiveDiagram();
 
         // --> 3. Get algorithm parameters
         AlgorithmParameters algo = AlgorithmParameters.getInstance();
@@ -87,7 +90,9 @@ public class BuildGraph extends DefaultDiagramAction {
 
         // --> 4. Get graph specifications
         // JsonObject adg_specs = BuildGraph.buildAdgSpecsExample();
-        JsonObject adg_specs = BuildGraph.buildAdgSpecs();
+        // JsonObject adg_specs = BuildGraph.buildAdgSpecs();
+        JsonObject adg_specs = BuildGraph.buildAdgOldSpecs();
+        // ADG_Element.showJsonElement("GRAPH OBJECT", adg_specs);
 
 
         // --> 5. Build graph
@@ -108,6 +113,111 @@ public class BuildGraph extends DefaultDiagramAction {
     }
 
 
+    // ---------------
+    // --- ADG 1.0 ---
+    // ---------------
+
+    public static JsonObject buildAdgOldSpecs(){
+        JsonObject final_obj = new JsonObject();
+
+
+
+        JsonObject root_obj = new JsonObject();
+        JsonArray root_dep_array = new JsonArray();
+        root_obj.add(ADG_Diagram.getActiveDiagram().getName(), root_dep_array);
+
+
+
+        // --> 1. Build Graph JsonObject
+        JsonObject graph_object = new JsonObject();
+        JsonArray decisions = new JsonArray();
+        JsonArray edges = new JsonArray();
+        graph_object.add("decisions", decisions);
+        graph_object.add("edges", edges);
+
+        // --> 2. Populate Decisions / Edges
+        ArrayList<Element> elements = ADG_Diagram.getDecisions();
+        for(Element decision_element: elements){
+
+            // --> Get decision object
+            String decision_type = ADG_Element.getDecisionType(decision_element);
+            String decision_name = ADG_Element.getElementName(decision_element);
+
+            // --> Enter decision object
+            JsonObject decision = new JsonObject();
+            decision.addProperty("name", decision_name);
+            decision.addProperty("type", decision_type);
+            decisions.add(decision);
+
+            if(ADG_Element.isLeafNode(decision_element)){
+                JsonObject fedge = new JsonObject();
+                fedge.addProperty("parent", ADG_Element.getElementName(decision_element));
+                fedge.addProperty("child", "Design");
+                fedge.addProperty("type", "FINAL_DEPENDENCY");
+                edges.add(fedge);
+            }
+
+            // --> Iterate over edges
+            ArrayList<Element> dependencies = ADG_Element.getDecisionDependencies(decision_element);
+            for(Element related_element: dependencies){
+
+                // --> Create edge
+                JsonObject edge = new JsonObject();
+                edge.addProperty("child", decision_name);
+                if(ADG_Element.isDecision(related_element)){
+                    DirectedRelationship relationship = ADG_Element.getRelationship(related_element, decision_element);
+                    edge.addProperty("parent", ADG_Element.getElementName(related_element));
+                    edge.addProperty("type", "DEPENDENCY");
+
+
+
+
+                }
+                else if(ADG_Element.isElementSet(related_element)){
+                    edge.addProperty("parent", "Root");
+                    edge.addProperty("type", "ROOT_DEPENDENCY");
+
+                    JsonObject decision_root_obj = new JsonObject();
+                    decision_root_obj.addProperty("child_name", decision_name);
+                    decision_root_obj.addProperty("child_type", decision_type);
+                    decision_root_obj.add("elements", BuildGraph.getRootDeps(related_element));
+                    root_dep_array.add(decision_root_obj);
+
+                }
+                else{
+                    continue;
+                }
+                edges.add(edge);
+            }
+        }
+
+        final_obj.add("graph", graph_object);
+        final_obj.add("root", root_obj);
+        return final_obj;
+    }
+
+    public static JsonArray getRootDeps(Element element_set){
+        JsonArray values = new JsonArray();
+        ArrayList<Element> element_set_items = ADG_Element.getElementSetDependencies(element_set);
+        int counter = 0;
+        for(Element element_set_item: element_set_items){
+            JsonObject value = new JsonObject();
+            value.addProperty("name", ADG_Element.getElementSetItemName(element_set_item));
+            value.addProperty("id", counter);
+            value.addProperty("type", "item");
+            value.addProperty("active", Boolean.TRUE);
+            values.add(value);
+
+            counter += 1;
+        }
+        return values;
+    }
+
+
+
+    // ---------------
+    // --- ADG 2.0 ---
+    // ---------------
 
     public static JsonObject buildAdgSpecsExample(){
         JsonObject adg_specs = new JsonObject();

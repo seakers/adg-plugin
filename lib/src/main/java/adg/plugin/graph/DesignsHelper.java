@@ -1,6 +1,6 @@
 package adg.plugin.graph;
 
-import adg.plugin.events.DiagramEvents;
+import adg.plugin.ADG_Element;
 import adg.plugin.packages.DiagramsPackage;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -11,6 +11,84 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 
 public class DesignsHelper {
+
+
+    public static void writeEnumeratedDesignOld(JsonArray design, int number){
+        // ADG_Element.showJsonElement("WRITING DESIGN", design);
+
+        Project project = Application.getInstance().getProject();
+
+        // --> 1. Get Adg Design Package
+        Package designs_package = DiagramsPackage.getAdgDesignSpacePackage(project, project.getActiveDiagram().getDiagram());
+
+        // --> 2. Create new package for new design (maybe ensure this doesn't exist first)
+        Package design_pkg = project.getElementsFactory().createPackageInstance();
+        design_pkg.setName("design-" + number);
+        design_pkg.setOwner(designs_package);
+
+        for(JsonElement element: design){
+            if(element.isJsonObject()){
+                DesignsHelper.writeDesignRecursiveOld(design_pkg, element.getAsJsonObject(), project);
+            }
+        }
+    }
+
+    public static void writeDesignOld(JsonArray design, int number){
+        ADG_Element.showJsonElement("WRITING DESIGN", design);
+
+        Project project = Application.getInstance().getProject();
+
+        // --> 1. Get Adg Design Package
+        Package designs_package = DiagramsPackage.getAdgGeneratedDesignsPackage(project, project.getActiveDiagram().getDiagram());
+
+        // --> 2. Create new package for new design (maybe ensure this doesn't exist first)
+        Package design_pkg = project.getElementsFactory().createPackageInstance();
+        design_pkg.setName("design-" + number);
+        design_pkg.setOwner(designs_package);
+
+        for(JsonElement element: design){
+            if(element.isJsonObject()){
+                DesignsHelper.writeDesignRecursiveOld(design_pkg, element.getAsJsonObject(), project);
+            }
+        }
+    }
+
+
+    public static void writeDesignRecursiveOld(Element owner, JsonObject data_source, Project project){
+        boolean active = data_source.get("active").getAsBoolean();
+        if(!active){
+            return;
+        }
+        String type = data_source.get("type").getAsString();
+
+        String name = "group-" + owner.getOwnedElement().size();
+        if(data_source.has("id")){
+            name += (" (id: " + data_source.get("id").getAsString() + ")");
+        }
+
+
+        if(data_source.has("name")){
+            name = data_source.get("name").getAsString();
+        }
+
+
+        com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class cameo_element = project.getElementsFactory().createClassInstance();
+        cameo_element.setName(name);
+        cameo_element.setOwner(owner);
+        if(type == "list" && data_source.has("elements")){
+            JsonArray elements = data_source.getAsJsonArray("elements");
+            for(JsonElement element: elements){
+                if(element.isJsonObject()){
+                    DesignsHelper.writeDesignRecursiveOld(cameo_element, element.getAsJsonObject(), project);
+                }
+            }
+        }
+    }
+
+
+
+
+
 
 
     public static void writeDesign(JsonObject design, int number){

@@ -1,5 +1,6 @@
 package adg.plugin.packages;
 
+import adg.plugin.ADG_Diagram;
 import adg.plugin.ADG_Element;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -160,6 +161,20 @@ public class DiagramsPackage {
         return null;
     }
 
+    public static void cleanAdgGeneratedDesignsPackage(){
+        Project project = Application.getInstance().getProject();
+        Package generated_designs_pkg = DiagramsPackage.getAdgGeneratedDesignsPackage(project, ADG_Diagram.getActiveDiagram());
+        Collection<PackageableElement> subpackages = generated_designs_pkg.getPackagedElement();
+        Iterator<PackageableElement> pkg_iterator = subpackages.stream().iterator();
+        ArrayList<PackageableElement> to_delete = new ArrayList<>();
+        while(pkg_iterator.hasNext()){
+            to_delete.add(pkg_iterator.next());
+        }
+        for(PackageableElement element: to_delete){
+            ADG_Element.deleteElement(element);
+        }
+    }
+
 
 
 
@@ -181,6 +196,19 @@ public class DiagramsPackage {
         return null;
     }
 
+    public static void cleanAdgDesignSpacePackage(){
+        Project project = Application.getInstance().getProject();
+        Package design_space_pkg = DiagramsPackage.getAdgDesignSpacePackage(project, ADG_Diagram.getActiveDiagram());
+        Collection<PackageableElement> subpackages = design_space_pkg.getPackagedElement();
+        Iterator<PackageableElement> pkg_iterator = subpackages.stream().iterator();
+        ArrayList<PackageableElement> to_delete = new ArrayList<>();
+        while(pkg_iterator.hasNext()){
+            to_delete.add(pkg_iterator.next());
+        }
+        for(PackageableElement element: to_delete){
+            ADG_Element.deleteElement(element);
+        }
+    }
 
 
 

@@ -94,17 +94,17 @@ public class GenerateSystemArchitectureModel extends DefaultDiagramAction {
         }
 
         // --> 5. Get topological ordering of nodes
-        Graph graph = BuildGraph.getAdgGraph();
-        if(graph == null){
-            return null;
-        }
-        for(Record node: graph.topologicalNodes){
-            String node_name = Graph.getNodeName(node);
-            if(node_name == "Root")
-                continue;
-
-            Element decision = ADG_Diagram.findDecision(decisions, node_name);
-        }
+//        Graph graph = BuildGraph.getAdgGraph();
+//        if(graph == null){
+//            return null;
+//        }
+//        for(Record node: graph.topologicalNodes){
+//            String node_name = Graph.getNodeName(node);
+//            if(node_name == "Root")
+//                continue;
+//
+//            Element decision = ADG_Diagram.findDecision(decisions, node_name);
+//        }
 
 
 

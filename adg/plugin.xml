@@ -14,7 +14,8 @@
 			<library name="lib.jar"/>
 			<library name="neo4j-java-driver-4.1.1.jar"/>
 			<library name="reactive-streams-1.0.3.jar"/>
-			<library name="decision-graph.jar"/>
+<!--			<library name="decision-graph.jar"/>-->
+            <library name="decisions.jar"/>
 			<library name="gson-2.8.6.jar"/>
     	</runtime>
 </plugin>

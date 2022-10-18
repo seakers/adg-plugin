@@ -198,6 +198,12 @@ public class ADG_Element {
         return ele_types.contains("Decision");
     }
 
+    public static boolean isLeafNode(Element decision){
+        Collection<DirectedRelationship> relationships_source = decision.get_directedRelationshipOfTarget();
+        return relationships_source.isEmpty();
+    }
+
+
     public static boolean isElementSet(Element element){
         ArrayList<String> ele_types = ADG_Element.getStereotypes(element);
         return ele_types.contains("ElementSet");

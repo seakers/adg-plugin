@@ -37,13 +37,14 @@ public class CrossoverDesigns extends DefaultDiagramAction {
         }
 
         // --> 2. Validate graph has more than 1 design
-        if(graph.designs.size() < 2){
-            JOptionPane.showMessageDialog(null, "ERROR: must have more than 1 generated designs");
-            return;
-        }
+//        if(graph.designs.size() < 2){
+//            JOptionPane.showMessageDialog(null, "ERROR: must have more than 1 generated designs");
+//            return;
+//        }
 
         // --> 3. Get designs to crossover
-        ArrayList<Integer> parents = this.getParentDesigns(graph.designs.size());
+        // ArrayList<Integer> parents = this.getParentDesigns(graph.designs.size());
+        ArrayList<Integer> parents = this.getParentDesigns(graph.getNumDesigns());
         if(parents.isEmpty() || parents.size() < 2){
             JOptionPane.showMessageDialog(null, "WARNING: no parents were selected, aborting");
             return;
@@ -54,9 +55,11 @@ public class CrossoverDesigns extends DefaultDiagramAction {
             double mutation_prob = (AlgorithmParameters.getInstance().mutation_probability * 1.0) / 100;
             int papa = parents.get(0);
             int mama = parents.get(1);
-            int design_idx = graph.crossoverDesigns(papa, mama, mutation_prob);
+            // int design_idx = graph.crossoverDesigns(papa, mama, mutation_prob);
+            int design_idx = graph.crossover(papa, mama, mutation_prob);
             JOptionPane.showMessageDialog(null, "SUCCESS: child design id " + design_idx + " - writing design to project");
-            DesignsHelper.writeDesign(graph.designs.get(design_idx).getAsJsonObject(), design_idx);
+            // DesignsHelper.writeDesign(graph.designs.get(design_idx).getAsJsonObject(), design_idx);
+            DesignsHelper.writeDesignOld(graph.getDesignObject(design_idx), design_idx);
         }
         catch (Exception ex){
             ex.printStackTrace();
