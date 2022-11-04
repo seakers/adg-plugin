@@ -33,7 +33,7 @@ public class StandardFormDecision extends DrawShapeDiagramAction {
 
     public StandardFormDecision()
     {
-        super(DRAW_STANDARD_FORM_ACTION, "Standard Form", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
+        super(DRAW_STANDARD_FORM_ACTION, "General Decision", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
         setLargeIcon(SquareIcon.fitOrCenter(new ScalableImageIcon(getClass(), "icons/myclass.svg"), 16));
     }
 

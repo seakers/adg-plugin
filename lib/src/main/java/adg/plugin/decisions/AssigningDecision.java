@@ -28,7 +28,7 @@ public class AssigningDecision extends DrawShapeDiagramAction {
     public static final String DRAW_ASSIGNING_ACTION = "DRAW_ASSIGNING_ACTION";
 
     public AssigningDecision() {
-        super(DRAW_ASSIGNING_ACTION, "Assigning", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
+        super(DRAW_ASSIGNING_ACTION, "Assigning Decision", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
         setLargeIcon(SquareIcon.fitOrCenter(new ScalableImageIcon(getClass(), "icons/myclass.svg"), 16));
     }
 

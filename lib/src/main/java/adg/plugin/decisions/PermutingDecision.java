@@ -26,7 +26,7 @@ public class PermutingDecision extends DrawShapeDiagramAction {
     public static final String DRAW_PERMUTING_ACTION = "DRAW_PERMUTING_ACTION";
 
     public PermutingDecision() {
-        super(DRAW_PERMUTING_ACTION, "Permuting", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
+        super(DRAW_PERMUTING_ACTION, "Permuting Decision", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
         //noinspection OverridableMethodCallDuringObjectConstruction,SpellCheckingInspection
         setLargeIcon(SquareIcon.fitOrCenter(new ScalableImageIcon(getClass(), "icons/myclass.svg"), 16));
     }

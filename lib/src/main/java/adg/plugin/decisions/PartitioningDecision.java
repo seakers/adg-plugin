@@ -33,7 +33,7 @@ public class PartitioningDecision extends DrawShapeDiagramAction {
 
     public PartitioningDecision()
     {
-        super(DRAW_PARTITIONING_ACTION, "Partitioning", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
+        super(DRAW_PARTITIONING_ACTION, "Partitioning Decision", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
         //noinspection OverridableMethodCallDuringObjectConstruction,SpellCheckingInspection
         setLargeIcon(SquareIcon.fitOrCenter(new ScalableImageIcon(getClass(), "icons/myclass.svg"), 16));
     }

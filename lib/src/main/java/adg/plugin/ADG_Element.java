@@ -234,7 +234,7 @@ public class ADG_Element {
 
     public static boolean isElementSet(Element element){
         ArrayList<String> ele_types = ADG_Element.getStereotypes(element);
-        return ele_types.contains("ElementSet");
+        return ele_types.contains("Element Set");
     }
 
     public static boolean isRootDecision(Element element) {

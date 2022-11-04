@@ -33,7 +33,7 @@ public class DownSelectingDecision extends DrawShapeDiagramAction {
 
     public DownSelectingDecision()
     {
-        super(DRAW_DOWN_SELECTING_ACTION, "Down Selecting", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
+        super(DRAW_DOWN_SELECTING_ACTION, "Down-selecting Decision", KeyStroke.getKeyStroke(KeyEvent.VK_M, 0));
         //noinspection OverridableMethodCallDuringObjectConstruction,SpellCheckingInspection
         setLargeIcon(SquareIcon.fitOrCenter(new ScalableImageIcon(getClass(), "icons/myclass.svg"), 16));
     }

@@ -145,7 +145,7 @@ public class DiagramsPackage {
 
     public static Class createDecisionElementSet(Diagram adg_diagram){
         Project project = Application.getInstance().getProject();
-        Class element = ADG_Element.createClassElement(new String[]{ "ElementSet" });
+        Class element = ADG_Element.createClassElement(new String[]{ "Element Set" });
         Package decision_pkg = DiagramsPackage.getAdgDecisionsPackage(project, adg_diagram);
         element.setName("Element Set " + decision_pkg.getPackagedElement().size());
         element.setOwner(decision_pkg);
