@@ -38,7 +38,7 @@ public class AssigningDecision extends DrawShapeDiagramAction {
 
         // --> 1. Create element
         Diagram adg_diagram = project.getActiveDiagram().getDiagram();
-        Class element = DiagramsPackage.createDecisionElement(adg_diagram, new String[]{ "Decision", "Assigning" });
+        Class element = DiagramsPackage.createDecisionElement(adg_diagram, new String[]{ "Assigning Decision" });
         element.setActive(true);
 
         // --> 2. Add ports

@@ -92,8 +92,8 @@ public class BuildGraph extends DefaultDiagramAction {
         // JsonObject adg_specs = BuildGraph.buildAdgSpecsExample();
         // JsonObject adg_specs = BuildGraph.buildAdgSpecs();
         JsonObject adg_specs = BuildGraph.buildAdgOldSpecs();
-        // ADG_Element.showJsonElement("GRAPH OBJECT", adg_specs);
-
+        ADG_Element.showJsonElement("GRAPH OBJECT", adg_specs.get("graph"));
+        ADG_Element.showJsonElement("ROOT OBJECT", adg_specs.get("root"));
 
         // --> 5. Build graph
         Graph graph = new Graph.Builder(formulation, problem, adg_specs)

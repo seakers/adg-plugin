@@ -10,6 +10,7 @@ import com.nomagic.magicdraw.uml.DiagramTypeConstants;
 import com.nomagic.magicdraw.uml.Finder;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.uml2.ext.jmi.helpers.CoreHelper;
+import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mddependencies.Dependency;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.*;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
@@ -101,7 +102,7 @@ public class DiagramsPackage {
             design_space_package.setOwner(adg_package);
 
             Package architecture_package = project.getElementsFactory().createPackageInstance();
-            architecture_package.setName("Architecture");
+            architecture_package.setName("System Architecture");
             architecture_package.setOwner(adg_package);
         }
         return adg_package;
@@ -135,9 +136,18 @@ public class DiagramsPackage {
 
     public static Class createDecisionElement(Diagram adg_diagram, String[] stereotypes){
         Project project = Application.getInstance().getProject();
-        Class element = ADG_Element.createClassElement("ADGProfile", stereotypes);
+        Activity element = ADG_Element.createActivityElement(stereotypes);
         Package decision_pkg = DiagramsPackage.getAdgDecisionsPackage(project, adg_diagram);
         element.setName("Decision " + decision_pkg.getPackagedElement().size());
+        element.setOwner(decision_pkg);
+        return element;
+    }
+
+    public static Class createDecisionElementSet(Diagram adg_diagram){
+        Project project = Application.getInstance().getProject();
+        Class element = ADG_Element.createClassElement(new String[]{ "ElementSet" });
+        Package decision_pkg = DiagramsPackage.getAdgDecisionsPackage(project, adg_diagram);
+        element.setName("Element Set " + decision_pkg.getPackagedElement().size());
         element.setOwner(decision_pkg);
         return element;
     }

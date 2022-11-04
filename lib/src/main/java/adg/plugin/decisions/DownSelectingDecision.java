@@ -45,7 +45,7 @@ public class DownSelectingDecision extends DrawShapeDiagramAction {
 
         // --> 1. Create element
         Diagram adg_diagram = project.getActiveDiagram().getDiagram();
-        Class element = DiagramsPackage.createDecisionElement(adg_diagram, new String[]{ "Decision", "DownSelecting" });
+        Class element = DiagramsPackage.createDecisionElement(adg_diagram, new String[]{ "Down-selecting Decision" });
         element.setActive(true);
         return element;
     }

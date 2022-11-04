@@ -45,7 +45,7 @@ public class PartitioningDecision extends DrawShapeDiagramAction {
 
         // --> 1. Create element
         Diagram adg_diagram = project.getActiveDiagram().getDiagram();
-        Class element = DiagramsPackage.createDecisionElement(adg_diagram, new String[]{ "Decision", "Partitioning" });
+        Class element = DiagramsPackage.createDecisionElement(adg_diagram, new String[]{ "Partitioning Decision" });
         element.setActive(true);
         return element;
     }

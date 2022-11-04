@@ -37,7 +37,7 @@ public class ElementSet extends DrawShapeDiagramAction {
 
         // --> 1. Create element
         Diagram adg_diagram = project.getActiveDiagram().getDiagram();
-        Class element = DiagramsPackage.createDecisionElement(adg_diagram, new String[]{ "ElementSet" });
+        Class element = DiagramsPackage.createDecisionElementSet(adg_diagram);
         element.setActive(true);
         return element;
     }

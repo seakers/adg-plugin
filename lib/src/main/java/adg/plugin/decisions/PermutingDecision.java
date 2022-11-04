@@ -37,7 +37,7 @@ public class PermutingDecision extends DrawShapeDiagramAction {
 
         // --> 1. Create element
         Diagram adg_diagram = project.getActiveDiagram().getDiagram();
-        Class element = DiagramsPackage.createDecisionElement(adg_diagram, new String[]{ "Decision", "Permuting" });
+        Class element = DiagramsPackage.createDecisionElement(adg_diagram, new String[]{ "Permuting Decision" });
         element.setActive(true);
         return element;
     }

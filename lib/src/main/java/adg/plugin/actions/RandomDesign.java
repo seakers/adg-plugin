@@ -1,6 +1,7 @@
 package adg.plugin.actions;
 
 import adg.plugin.ADG_Descriptor;
+import adg.plugin.ADG_Element;
 import adg.plugin.events.DiagramEvents;
 import adg.plugin.graph.AlgorithmParameters;
 import adg.plugin.graph.ConnectionParameters;
@@ -30,6 +31,7 @@ import java.awt.event.KeyEvent;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 public class RandomDesign extends DefaultDiagramAction {
@@ -55,7 +57,9 @@ public class RandomDesign extends DefaultDiagramAction {
         // --> 2. Generate random design
         try{
             int design_idx = graph.generateRandomDesign();
-            JOptionPane.showMessageDialog(null, "SUCCESS: random design id " + design_idx + " - writing design to project");
+            JOptionPane.showMessageDialog(null, "SUCCESS: random design id " + design_idx + " - writing design");
+//            HashMap<String, Double> results = graph.evaluateCameo(design_idx);
+//            ADG_Element.showResultsElement(results);
             // DesignsHelper.writeDesign(graph.designs.get(design_idx).getAsJsonObject(), design_idx);
             DesignsHelper.writeDesignOld(graph.getDesignObject(design_idx), design_idx);
         }

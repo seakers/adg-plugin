@@ -69,7 +69,7 @@ public class GenerateSystemArchitectureModel extends DefaultDiagramAction {
         Package sys_arch_pkg = DiagramsPackage.getAdgSystemArchitecturePackage(adg_diagram_view.getDiagram());
 
         // --> 2. Create System Architecture root element
-        Class arch_element = ADG_Element.createClassElement("ADGProfile", new String[]{"SystemArchitecture"});
+        Class arch_element = ADG_Element.createClassElement(new String[]{"SystemArchitecture"});
         arch_element.setName("System Architecture");
         arch_element.setActive(true);
         arch_element.setOwner(sys_arch_pkg);

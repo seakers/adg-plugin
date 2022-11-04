@@ -11,6 +11,7 @@ import com.nomagic.magicdraw.openapi.uml.ReadOnlyElementException;
 import com.nomagic.magicdraw.openapi.uml.SessionManager;
 import com.nomagic.magicdraw.uml.symbols.DiagramPresentationElement;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
+import com.nomagic.uml2.ext.magicdraw.activities.mdfundamentalactivities.Activity;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.DirectedRelationship;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
@@ -23,17 +24,40 @@ import java.util.*;
 
 public class ADG_Element {
 
-    public static String[] types = new String[]{"DownSelecting", "Assigning", "Partitioning", "Permuting", "Connecting", "StandardForm"};
+    public static String adg_profile = "ADM Profile";  // ADGProfile | AMD Profile
+
+    public static List<String> types = Arrays.asList("General Decision", "Down-selecting Decision", "Assigning Decision", "Partitioning Decision", "Combining Decision", "Permuting Decision", "Connecting Decision", "Decision");
+
+    public static Map<String, String> type_map = new HashMap<String, String>() {{
+        put("General Decision", "StandardForm");
+        put("Down-selecting Decision", "DownSelecting");
+        put("Assigning Decision", "Assigning");
+        put("Partitioning Decision", "Partitioning");
+        put("Combining Decision", "Combining");
+        put("Permuting Decision", "Permuting");
+        put("Connecting Decision", "Connecting");
+    }};
 
 
     // --------------
     // --- Create ---
     // --------------
 
-    public static Class createClassElement(String profile, String[] stereotypes){
+    public static Class createClassElement(String[] stereotypes){
         Project project = Application.getInstance().getProject();
         Class element = project.getElementsFactory().createClassInstance();
-        Profile element_profile = StereotypesHelper.getProfile(project, profile);
+        Profile element_profile = StereotypesHelper.getProfile(project, ADG_Element.adg_profile);
+        for(String stereotype: stereotypes){
+            Stereotype element_stereotype = StereotypesHelper.getStereotype(project, stereotype, element_profile);
+            StereotypesHelper.addStereotype(element, element_stereotype);
+        }
+        return element;
+    }
+
+    public static Activity createActivityElement(String[] stereotypes){
+        Project project = Application.getInstance().getProject();
+        Activity element = project.getElementsFactory().createActivityInstance();
+        Profile element_profile = StereotypesHelper.getProfile(project, ADG_Element.adg_profile);
         for(String stereotype: stereotypes){
             Stereotype element_stereotype = StereotypesHelper.getStereotype(project, stereotype, element_profile);
             StereotypesHelper.addStereotype(element, element_stereotype);
@@ -91,8 +115,8 @@ public class ADG_Element {
         if(ADG_Element.isDecision(element)){
             ArrayList<String> ele_types = ADG_Element.getStereotypes(element);
             for(String ele_type: ele_types){
-                if(Arrays.asList(ADG_Element.types).contains(ele_type)){
-                    return ele_type;
+                if(ADG_Element.type_map.keySet().contains(ele_type)){
+                    return ADG_Element.type_map.get(ele_type);
                 }
             }
         }
@@ -194,8 +218,12 @@ public class ADG_Element {
     }
 
     public static boolean isDecision(Element element){
-        ArrayList<String> ele_types = ADG_Element.getStereotypes(element);
-        return ele_types.contains("Decision");
+        for(String ele_type: ADG_Element.getStereotypes(element)){
+            if(ADG_Element.types.contains(ele_type)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isLeafNode(Element decision){
@@ -223,7 +251,7 @@ public class ADG_Element {
 
     public static boolean validateDecision(Element element){
         ArrayList<String> ele_types = ADG_Element.getStereotypes(element);
-        if(!ele_types.contains("Decision")){
+        if(!ADG_Element.isDecision(element)){
             return false;
         }
 
@@ -234,7 +262,7 @@ public class ADG_Element {
 
     public static boolean validateElementSet(Element element){
         ArrayList<String> ele_types = ADG_Element.getStereotypes(element);
-        if(!ele_types.contains("ElementSet")){
+        if(!ADG_Element.isElementSet(element)){
             return false;
         }
 
@@ -261,5 +289,13 @@ public class ADG_Element {
         JOptionPane.showMessageDialog(null, "---> " + description +
                 "\n --> getHumanName() " + message.getHumanName() +
                 "\n --> getHumanType() " + message.getHumanType());
+    }
+
+    public static void showResultsElement(HashMap<String, Double> results){
+        String results_str = "";
+        for(String key: results.keySet()){
+            results_str += ("\n " + key + ": " + results.get(key));
+        }
+        JOptionPane.showMessageDialog(null, results_str);
     }
 }

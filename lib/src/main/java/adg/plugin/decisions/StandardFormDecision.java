@@ -44,7 +44,7 @@ public class StandardFormDecision extends DrawShapeDiagramAction {
 
         // --> 1. Create element
         Diagram adg_diagram = project.getActiveDiagram().getDiagram();
-        Class element = DiagramsPackage.createDecisionElement(adg_diagram, new String[]{ "Decision", "StandardForm" });
+        Class element = DiagramsPackage.createDecisionElement(adg_diagram, new String[]{ "General Decision" });
         element.setActive(true);
         return element;
     }

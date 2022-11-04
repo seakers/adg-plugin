@@ -17,5 +17,39 @@
 <!--			<library name="decision-graph.jar"/>-->
             <library name="decisions.jar"/>
 			<library name="gson-2.8.6.jar"/>
+<!--            <library name="aws-sdk-java-2.13.13.jar"/>-->
+<!--            <library name="aws-core-2.13.13.jar"/>-->
+<!--            <library name="annotations-2.13.13.jar"/>-->
+<!--            <library name="apache-client-2.13.13.jar"/>-->
+<!--            <library name="protocol-core-2.13.13.jar"/>-->
+<!--            <library name="sdk-core-2.13.13.jar"/>-->
+<!--            <library name="sqs-2.13.13.jar"/>-->
+<!--            <library name="utils-2.13.13.jar"/>-->
+<!--            <library name="regions-2.13.13.jar"/>-->
+<!--            <library name="auth-2.13.13.jar"/>-->
+<!--            <library name="aws-query-protocol-2.13.13.jar"/>-->
+<!--            <library name="http-client-spi-2.13.13.jar"/>-->
+<!--            <library name="netty-nio-client-2.13.13.jar"/>-->
+<!--            <library name="profiles-2.13.13.jar"/>-->
+<!--            <library name="sts-2.13.13.jar"/>-->
+            <library name="moeaframework-2.12.jar"/>
     	</runtime>
 </plugin>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
