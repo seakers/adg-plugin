@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Design Space</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id='target' ></div>
+        <script>
+        var target_target = document.getElementById('target');
+        var layout = {
+    title: 'Design Space',
+    height: 600,
+    width: 800,
+    xaxis: {
+    title: 'Cost',
+    },
+
+    yaxis: {
+    title: 'Science',
+    },
+
+};
+
+var trace0 =
+{
+x: ["2747.9720563089422","1052.296013209063","1469.269263706324","1331.1441293292373","1828.1013237424684","1626.7102812113076","1809.2071906190363","1751.95346470425"],
+y: ["0.6819236500000001","0.4622359500000001","0.65374","0.4622359500000001","0.7114236500000002","0.65374","0.7114236500000002","0.73386865"],
+mode: 'markers',
+xaxis: 'x',
+yaxis: 'y',
+type: 'scatter',
+name: '',
+};
+
+        var data = [ trace0];
+Plotly.newPlot(target_target, data, layout);            </script>
+
+</body>
+</html>

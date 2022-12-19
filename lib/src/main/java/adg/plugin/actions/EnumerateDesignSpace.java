@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class EnumerateDesignSpace extends DefaultDiagramAction {
 
 
-    private static final String ACTION_NAME = "Enumerate Design Space";
+    private static final String ACTION_NAME = "Enumerate Decision Graph";
 
 
     public EnumerateDesignSpace()

@@ -22,7 +22,7 @@ def CAMEO_ADG_PLUGIN_PATH = CAMEO_PLUGINS_PATH + File.separator + 'adg'
 
 def LOCAL_ADG_PLUGIN_PATH = rootDir.getPath() + File.separator + 'adg'
 def LOCAL_ADG_API_PATH = rootDir.getPath() + File.separator + 'adg' + File.separator + 'decision-graph.jar'
-def LOCAL_OLD_ADG_API_PATH = rootDir.getPath() + File.separator + 'adg' + File.separator + 'decisions.jar'
+def LOCAL_OLD_ADG_API_PATH = rootDir.getPath() + File.separator + 'adg' + File.separator + 'decisions_evaluator.jar'
 
 
 
@@ -59,6 +59,7 @@ dependencies {
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'tech.tablesaw:tablesaw-jsplot:0.43.1'
 
     // ADG Api
     // implementation files("$LOCAL_ADG_API_PATH")

@@ -104,6 +104,14 @@ public class DiagramsPackage {
             Package architecture_package = project.getElementsFactory().createPackageInstance();
             architecture_package.setName("System Architecture");
             architecture_package.setOwner(adg_package);
+
+            Package evaluator_package = project.getElementsFactory().createPackageInstance();
+            evaluator_package.setName("Evaluator");
+            evaluator_package.setOwner(adg_package);
+
+            Package processed_designs_package = project.getElementsFactory().createPackageInstance();
+            processed_designs_package.setName("Processed Designs");
+            processed_designs_package.setOwner(adg_package);
         }
         return adg_package;
     }
@@ -115,6 +123,8 @@ public class DiagramsPackage {
     // --> 3. Design Space
     // --> 4. System Architecture
 
+    // --> 5. Evaluator
+    // --> 6. Processed Designs
 
     // -------------------------
     // --- Decisions Package ---
@@ -220,6 +230,14 @@ public class DiagramsPackage {
         }
     }
 
+    public static Element createDesignElement(Diagram adg_diagram, int number){
+        Project project = Application.getInstance().getProject();
+        Class element = ADG_Element.createClassElement(new String[]{ "Design" });
+        Package design_space_pkg = DiagramsPackage.getAdgDesignSpacePackage(project, adg_diagram);
+        element.setName("design-" + number);
+        element.setOwner(design_space_pkg);
+        return element;
+    }
 
 
 
@@ -298,6 +316,74 @@ public class DiagramsPackage {
         return diagram;
     }
 
+
+
+    // -------------------------
+    // --- Evaluator Package ---
+    // -------------------------
+
+    public static Package getAdgEvaluatorPackage(Diagram adg_diagram){
+        Project project = Application.getInstance().getProject();
+        Package adg_package = DiagramsPackage.getOrCreateAdgPackage(project, adg_diagram);
+        Collection<Package> subpackages = adg_package.getNestedPackage();
+        Iterator<Package> pkg_iterator = subpackages.stream().iterator();
+        while(pkg_iterator.hasNext()){
+            Package pkg = pkg_iterator.next();
+            if(pkg.getName().equals("Evaluator")){
+                return pkg;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Adg SystemArchitecture Package Not Found");
+        return null;
+    }
+
+    public static void cleanAdgEvaluatorPackage(){
+        Project project = Application.getInstance().getProject();
+        Package design_space_pkg = DiagramsPackage.getAdgEvaluatorPackage(ADG_Diagram.getActiveDiagram());
+        Collection<PackageableElement> subpackages = design_space_pkg.getPackagedElement();
+        Iterator<PackageableElement> pkg_iterator = subpackages.stream().iterator();
+        ArrayList<PackageableElement> to_delete = new ArrayList<>();
+        while(pkg_iterator.hasNext()){
+            to_delete.add(pkg_iterator.next());
+        }
+        for(PackageableElement element: to_delete){
+            ADG_Element.deleteElement(element);
+        }
+    }
+
+
+    // ---------------------------------
+    // --- Processed Designs Package ---
+    // ---------------------------------
+
+    public static Package getAdgProcessedDesignsPackage(Diagram adg_diagram){
+        Project project = Application.getInstance().getProject();
+        Package adg_package = DiagramsPackage.getOrCreateAdgPackage(project, adg_diagram);
+        Collection<Package> subpackages = adg_package.getNestedPackage();
+        Iterator<Package> pkg_iterator = subpackages.stream().iterator();
+        while(pkg_iterator.hasNext()){
+            Package pkg = pkg_iterator.next();
+            if(pkg.getName().equals("Processed Designs")){
+                return pkg;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Adg SystemArchitecture Package Not Found");
+        return null;
+    }
+
+    public static void cleanAdgProcessedDesignsPackage(){
+        Project project = Application.getInstance().getProject();
+        Package design_space_pkg = DiagramsPackage.getAdgProcessedDesignsPackage(ADG_Diagram.getActiveDiagram());
+        Collection<PackageableElement> subpackages = design_space_pkg.getPackagedElement();
+        Iterator<PackageableElement> pkg_iterator = subpackages.stream().iterator();
+        ArrayList<PackageableElement> to_delete = new ArrayList<>();
+        while(pkg_iterator.hasNext()){
+            to_delete.add(pkg_iterator.next());
+        }
+        for(PackageableElement element: to_delete){
+            ADG_Element.deleteElement(element);
+        }
+    }
 
 
 

@@ -104,6 +104,10 @@ public class ADG_Plugin extends Plugin{
         private final DefaultDiagramAction gen_design_space;
 
         private final DefaultDiagramAction enumerate;
+        private final DefaultDiagramAction visualizer;
+        private final DefaultDiagramAction evaluator;
+
+
 
         AbstractActionConfigurator() {
             this.set_algorithm = new SetAlgorithm();
@@ -114,6 +118,8 @@ public class ADG_Plugin extends Plugin{
             this.crossover_designs = new CrossoverDesigns();
             this.gen_design_space = new GenerateSystemArchitectureModel();
             this.enumerate = new EnumerateDesignSpace();
+            this.visualizer = new OpenVisualizer();
+            this.evaluator = new EvaluateDesigns();
         }
 
         @Override
@@ -132,7 +138,8 @@ public class ADG_Plugin extends Plugin{
             category2.addAction(this.random_design);
             category2.addAction(this.crossover_designs);
             category2.addAction(this.enumerate);
-
+            category2.addAction(this.visualizer);
+            category2.addAction(this.evaluator);
         }
 
         @Override

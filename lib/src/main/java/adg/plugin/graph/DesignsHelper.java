@@ -1,34 +1,37 @@
 package adg.plugin.graph;
 
+import adg.plugin.ADG_Diagram;
 import adg.plugin.ADG_Element;
 import adg.plugin.packages.DiagramsPackage;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
+import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Profile;
+import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
 public class DesignsHelper {
 
 
     public static void writeEnumeratedDesignOld(JsonArray design, int number){
-        // ADG_Element.showJsonElement("WRITING DESIGN", design);
-
         Project project = Application.getInstance().getProject();
 
-        // --> 1. Get Adg Design Package
-        Package designs_package = DiagramsPackage.getAdgDesignSpacePackage(project, project.getActiveDiagram().getDiagram());
+        // --> 1. Get design element
+        Element design_element = DiagramsPackage.createDesignElement(ADG_Diagram.getActiveDiagram(), number);
 
-        // --> 2. Create new package for new design (maybe ensure this doesn't exist first)
-        Package design_pkg = project.getElementsFactory().createPackageInstance();
-        design_pkg.setName("design-" + number);
-        design_pkg.setOwner(designs_package);
+        // --> 2. Get design string and add as tag
+        Profile adm_profile = StereotypesHelper.getProfile(project, ADG_Element.adg_profile);
+        Stereotype design_stereotype = StereotypesHelper.getStereotype(project, "Design", adm_profile);
+        String design_str = (new GsonBuilder().setPrettyPrinting().create()).toJson(design);
+        StereotypesHelper.setStereotypePropertyValue(design_element, design_stereotype, "DesignString", design_str);
 
+        // --> 3. Recursively fill design
         for(JsonElement element: design){
             if(element.isJsonObject()){
-                DesignsHelper.writeDesignRecursiveOld(design_pkg, element.getAsJsonObject(), project);
+                DesignsHelper.writeDesignRecursiveOld(design_element, element.getAsJsonObject(), project);
             }
         }
     }

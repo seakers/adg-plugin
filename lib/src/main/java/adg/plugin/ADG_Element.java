@@ -26,7 +26,7 @@ public class ADG_Element {
 
     public static String adg_profile = "ADM Profile";  // ADGProfile | AMD Profile
 
-    public static List<String> types = Arrays.asList("General Decision", "Down-selecting Decision", "Assigning Decision", "Partitioning Decision", "Combining Decision", "Permuting Decision", "Connecting Decision", "Decision");
+    public static List<String> types = Arrays.asList("General Decision", "Down-selecting Decision", "Assigning Decision", "Partitioning Decision", "Combining Decision", "Permuting Decision", "Connecting Decision", "Decision", "Design");
 
     public static Map<String, String> type_map = new HashMap<String, String>() {{
         put("General Decision", "StandardForm");
