@@ -51,7 +51,6 @@ public class ADG_Actions {
         NMAction drawAssigningAction     = new AssigningDecision();
         NMAction drawStandardFormAction  = new StandardFormDecision();
         NMAction drawPermutingAction     = new PermutingDecision();
-        NMAction drawRootAction          = new RootDecision();
         NMAction drawElementSetAction    = new ElementSet();
 
 
@@ -68,7 +67,6 @@ public class ADG_Actions {
         category.addAction(drawAssigningAction);
         category.addAction(drawStandardFormAction);
         category.addAction(drawPermutingAction);
-        category.addAction(drawRootAction);
         category.addAction(drawElementSetAction);
 
 

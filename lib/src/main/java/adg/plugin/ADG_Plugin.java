@@ -13,6 +13,9 @@ import com.nomagic.magicdraw.plugins.Plugin;
 import com.nomagic.magicdraw.ui.actions.DefaultDiagramAction;
 
 import javax.swing.*;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class ADG_Plugin extends Plugin{
@@ -59,6 +62,7 @@ public class ADG_Plugin extends Plugin{
         // ----- FINISHED -----
         // --------------------
         JOptionPane.showMessageDialog(null, "INSTALLATION FINISHED");
+
     }
 
     public void init_stereotypes(){
@@ -84,6 +88,20 @@ public class ADG_Plugin extends Plugin{
     {
         return true;
     }
+
+    public static Path getPluginPath(){
+        Path plugin_path = null;
+        try{
+            String path = new File(".").getCanonicalPath();
+            Path path_obj = Paths.get(path);
+            plugin_path = Paths.get(path_obj.toString(), "plugins", "adg");
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return plugin_path;
+    }
+
 
 
 //                    _    _

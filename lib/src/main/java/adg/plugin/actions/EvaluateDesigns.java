@@ -3,7 +3,9 @@ package adg.plugin.actions;
 import adg.plugin.ADG_Descriptor;
 import adg.plugin.ADG_Diagram;
 import adg.plugin.ADG_Element;
+import adg.plugin.ADG_Plugin;
 import adg.plugin.packages.DiagramsPackage;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.nomagic.magicdraw.core.Application;
 import com.nomagic.magicdraw.core.Project;
@@ -14,6 +16,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -54,19 +57,21 @@ public class EvaluateDesigns extends DefaultDiagramAction {
         }
 
         // --> 2. Evaluate
-        String model_folder_path = "C:\\Users\\apaza\\repos\\seakers\\decisions\\output\\";
+        String model_folder_path = Paths.get(ADG_Plugin.getPluginPath().toString(), "models").toString();
         for(PackageableElement design: to_evaluate){
+
+            // --> Evaluate design / set
             String design_string = StereotypesHelper.getStereotypePropertyValue(design, design_stereotype, "DesignString").get(0).toString();
-            // ADG_Element.showMessage("DESIGN STRING", design_string);
-
             JsonObject result = Graph.getInstance().evaluateDesignString(model_folder_path, design_string);
-            ADG_Element.showJsonElement("EVALUATED DESIGN", result);
+            result.addProperty("name", design.getName());
+            String result_str = (new GsonBuilder().setPrettyPrinting().create()).toJson(result);
+            StereotypesHelper.setStereotypePropertyValue(design, design_stereotype, "Objectives", result_str);
+            // ADG_Element.showJsonElement("EVALUATED DESIGN", result);
 
-            Package processed_desisngs = DiagramsPackage.getAdgProcessedDesignsPackage(ADG_Diagram.getActiveDiagram());
-            design.setOwner(processed_desisngs);
+            // --> Move design to processed folder
+            Package processed_designs = DiagramsPackage.getAdgProcessedDesignsPackage(ADG_Diagram.getActiveDiagram());
+            design.setOwner(processed_designs);
         }
-
-
 
     }
 }
