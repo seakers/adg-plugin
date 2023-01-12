@@ -71,8 +71,10 @@ public class BuildGraph extends DefaultDiagramAction {
             else{
                 System.out.println("--> CLEAN ADG PACKAGE FOR NEW GRAPH...");
                 DiagramsPackage.cleanAdgDesignSpacePackage();
-                DiagramsPackage.cleanAdgSystemArchitectureModel(ADG_Diagram.getActiveDiagram());
+                DiagramsPackage.cleanAdgEvaluatorPackage();
                 DiagramsPackage.cleanAdgGeneratedDesignsPackage();
+                DiagramsPackage.cleanAdgProcessedDesignsPackage();
+                DiagramsPackage.cleanAdgSystemArchitectureModel(ADG_Diagram.getActiveDiagram());
             }
         }
 
@@ -92,8 +94,8 @@ public class BuildGraph extends DefaultDiagramAction {
         // JsonObject adg_specs = BuildGraph.buildAdgSpecsExample();
         // JsonObject adg_specs = BuildGraph.buildAdgSpecs();
         JsonObject adg_specs = BuildGraph.buildAdgOldSpecs();
-        ADG_Element.showJsonElement("GRAPH OBJECT", adg_specs.get("graph"));
-        ADG_Element.showJsonElement("ROOT OBJECT", adg_specs.get("root"));
+        // ADG_Element.showJsonElement("GRAPH OBJECT", adg_specs.get("graph"));
+        // ADG_Element.showJsonElement("ROOT OBJECT", adg_specs.get("root"));
 
         // --> 5. Build graph
         Graph graph = new Graph.Builder(formulation, problem, adg_specs)

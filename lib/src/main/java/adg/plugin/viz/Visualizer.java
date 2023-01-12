@@ -22,10 +22,7 @@ import tech.tablesaw.api.Table;
 import tech.tablesaw.plotly.Plot;
 import tech.tablesaw.plotly.api.BubblePlot;
 import tech.tablesaw.plotly.api.ScatterPlot;
-import tech.tablesaw.plotly.components.Figure;
-import tech.tablesaw.plotly.components.Layout;
-import tech.tablesaw.plotly.components.Marker;
-import tech.tablesaw.plotly.components.Symbol;
+import tech.tablesaw.plotly.components.*;
 import tech.tablesaw.plotly.traces.BarTrace;
 import tech.tablesaw.plotly.traces.HistogramTrace;
 import tech.tablesaw.plotly.traces.ScatterTrace;
@@ -140,11 +137,20 @@ public class Visualizer {
 //        Figure figure = new Figure(layout, trace1, trace2);
 
 
+        Layout layout1 = Layout.builder()
+                .title("Design Space")
+                .xAxis(Axis.builder().title("Science").build())
+                .yAxis(Axis.builder().title("Cost").build())
+                .build();
+        ScatterTrace trace1 = ScatterTrace.builder(column1, column2)
+                .mode(ScatterTrace.Mode.MARKERS)
+                .marker(Marker.builder().symbol(Symbol.DIAMOND).color("blue").size(7).build())
+                .text(column5.asObjectArray())
+                .build();
+        Figure figure = new Figure(layout1, trace1);
 
 
-
-
-        Figure figure = ScatterPlot.create("Design Space", data_table, "Cost", "Science");
+//        Figure figure = ScatterPlot.create("Design Space", data_table, "Cost", "Science");
 
 
         Path fig_path = Paths.get(ADG_Plugin.getPluginPath().toString(), "figures", "fig.html");
