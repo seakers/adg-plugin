@@ -153,6 +153,35 @@ public class ADG_Element {
         return dependencies;
     }
 
+    public static HashMap<String, ArrayList<Element>> getAssigningDecisionDependencies(Element decision){
+        HashMap<String, ArrayList<Element>> dependencies = new HashMap<>();
+        ArrayList<Element> assign_to = new ArrayList<>();
+        ArrayList<Element> assign_from = new ArrayList<>();
+
+        Collection<Element> ports = decision.getOwnedElement();
+        for(Element port: ports){
+            String port_type = port.getHumanName();
+            Collection<DirectedRelationship> relationships_source = port.get_directedRelationshipOfSource();
+            for(DirectedRelationship relationship: relationships_source){
+                Element related_element = ADG_Element.getRelationshipElementTarget(relationship);
+                if(ADG_Element.isDecision(related_element) || ADG_Element.isElementSet(related_element)){
+                    if(port_type.equals("to")){
+                        assign_to.add(related_element);
+                    }
+                    else if(port_type.equals("from")){
+                        assign_from.add(related_element);
+                    }
+                    else{
+                        ADG_Element.showMessage("getAssigningDecisionDependencies", "invalid port human name: " + port_type);
+                    }
+                }
+            }
+        }
+        dependencies.put("to", assign_to);
+        dependencies.put("from", assign_from);
+        return dependencies;
+    }
+
     public static ArrayList<Element> getElementSetDependencies(Element element_set){
         ArrayList<Element> dependencies = new ArrayList<>();
         Collection<Element> owned_elements = element_set.getOwnedElement();

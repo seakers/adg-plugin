@@ -25,6 +25,7 @@ import java.awt.event.KeyEvent;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 public class BuildGraph extends DefaultDiagramAction {
 
@@ -159,37 +160,93 @@ public class BuildGraph extends DefaultDiagramAction {
                 edges.add(fedge);
             }
 
+
             // --> Iterate over edges
-            ArrayList<Element> dependencies = ADG_Element.getDecisionDependencies(decision_element);
-            for(Element related_element: dependencies){
+            if(decision_type.equals("Assigning Decision")){
+                // --> TODO: Implement assigning decision here
+                HashMap<String, ArrayList<Element>> dep_map = ADG_Element.getAssigningDecisionDependencies(decision_element);
+                ArrayList<Element> assign_to = dep_map.get("to");
+                for(Element related_element: assign_to){
+                    // --> Create edge
+                    JsonObject edge = new JsonObject();
+                    edge.addProperty("child", decision_name);
 
-                // --> Create edge
-                JsonObject edge = new JsonObject();
-                edge.addProperty("child", decision_name);
-                if(ADG_Element.isDecision(related_element)){
-                    DirectedRelationship relationship = ADG_Element.getRelationship(related_element, decision_element);
-                    edge.addProperty("parent", ADG_Element.getElementName(related_element));
-                    edge.addProperty("type", "DEPENDENCY");
+                    if(ADG_Element.isDecision(related_element)){
+                        DirectedRelationship relationship = ADG_Element.getRelationship(related_element, decision_element);
+                        edge.addProperty("parent", ADG_Element.getElementName(related_element));
+                        edge.addProperty("type", "TO");
+                    }
+                    else if(ADG_Element.isElementSet(related_element)){
+                        edge.addProperty("parent", "Root");
+                        edge.addProperty("type", "TO");
 
+                        JsonObject decision_root_obj = new JsonObject();
+                        decision_root_obj.addProperty("child_name", decision_name);
+                        decision_root_obj.addProperty("child_type", decision_type);
+                        decision_root_obj.add("elements", BuildGraph.getRootDeps(related_element));
+                        root_dep_array.add(decision_root_obj);
 
-
-
+                    }
+                    else{
+                        continue;
+                    }
                 }
-                else if(ADG_Element.isElementSet(related_element)){
-                    edge.addProperty("parent", "Root");
-                    edge.addProperty("type", "ROOT_DEPENDENCY");
 
-                    JsonObject decision_root_obj = new JsonObject();
-                    decision_root_obj.addProperty("child_name", decision_name);
-                    decision_root_obj.addProperty("child_type", decision_type);
-                    decision_root_obj.add("elements", BuildGraph.getRootDeps(related_element));
-                    root_dep_array.add(decision_root_obj);
+                ArrayList<Element> assign_from = dep_map.get("from");
+                for(Element related_element: assign_from){
+                    // --> Create edge
+                    JsonObject edge = new JsonObject();
+                    edge.addProperty("child", decision_name);
 
+                    if(ADG_Element.isDecision(related_element)){
+                        DirectedRelationship relationship = ADG_Element.getRelationship(related_element, decision_element);
+                        edge.addProperty("parent", ADG_Element.getElementName(related_element));
+                        edge.addProperty("type", "FROM");
+                    }
+                    else if(ADG_Element.isElementSet(related_element)){
+                        edge.addProperty("parent", "Root");
+                        edge.addProperty("type", "FROM");
+
+                        JsonObject decision_root_obj = new JsonObject();
+                        decision_root_obj.addProperty("child_name", decision_name);
+                        decision_root_obj.addProperty("child_type", decision_type);
+                        decision_root_obj.add("elements", BuildGraph.getRootDeps(related_element));
+                        root_dep_array.add(decision_root_obj);
+
+                    }
+                    else{
+                        continue;
+                    }
                 }
-                else{
-                    continue;
+            }
+            else{
+                ArrayList<Element> dependencies = ADG_Element.getDecisionDependencies(decision_element);
+                for(Element related_element: dependencies){
+
+                    // --> Create edge
+                    JsonObject edge = new JsonObject();
+                    edge.addProperty("child", decision_name);
+                    if(ADG_Element.isDecision(related_element)){
+                        DirectedRelationship relationship = ADG_Element.getRelationship(related_element, decision_element);
+                        edge.addProperty("parent", ADG_Element.getElementName(related_element));
+                        edge.addProperty("type", "DEPENDENCY");
+                    }
+                    else if(ADG_Element.isElementSet(related_element)){
+                        edge.addProperty("parent", "Root");
+                        edge.addProperty("type", "ROOT_DEPENDENCY");
+
+                        JsonObject decision_root_obj = new JsonObject();
+                        decision_root_obj.addProperty("child_name", decision_name);
+                        decision_root_obj.addProperty("child_type", decision_type);
+                        decision_root_obj.add("elements", BuildGraph.getRootDeps(related_element));
+                        root_dep_array.add(decision_root_obj);
+
+                    }
+                    else{
+                        continue;
+                    }
+                    edges.add(edge);
                 }
-                edges.add(edge);
             }
         }
 
