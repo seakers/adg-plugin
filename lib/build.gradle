@@ -19,11 +19,8 @@ def CAMEO_LIB_PATH = CAMEO_PATH + File.separator + 'lib'
 def CAMEO_PLUGINS_PATH = CAMEO_PATH + File.separator + 'plugins'
 def CAMEO_SYSML_PLUGIN_PATH = CAMEO_PLUGINS_PATH + File.separator + 'com.nomagic.magicdraw.sysml'
 def CAMEO_ADG_PLUGIN_PATH = CAMEO_PLUGINS_PATH + File.separator + 'adg'
-
-def LOCAL_ADG_PLUGIN_PATH = rootDir.getPath() + File.separator + 'adg'
-def LOCAL_ADG_API_PATH = rootDir.getPath() + File.separator + 'adg' + File.separator + 'decision-graph.jar'
-def LOCAL_OLD_ADG_API_PATH = rootDir.getPath() + File.separator + 'adg' + File.separator + 'decisions_evaluator.jar'
-
+def DISTRIBUTION_PATH = 'C:\\Users\\apaza\\repos\\seakers\\adgplugin\\distribution\\plugins\\adg'
+def LOCAL_OLD_ADG_API_PATH = DISTRIBUTION_PATH + File.separator + 'decisions_evaluator.jar'
 
 
 
@@ -74,7 +71,7 @@ jar {
     zip64=true
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    destinationDirectory.set(file("$LOCAL_ADG_PLUGIN_PATH"))
+    destinationDirectory.set(file("$DISTRIBUTION_PATH"))
 }
 
 
@@ -88,10 +85,11 @@ jar {
 
 
 tasks.register('copyPlugin', Sync) {
-    from LOCAL_ADG_PLUGIN_PATH
+    from DISTRIBUTION_PATH
     into CAMEO_ADG_PLUGIN_PATH
     fileMode 0644
 }
+
 
 tasks.register('buildPlugin') {
 
@@ -101,9 +99,6 @@ tasks.register('buildPlugin') {
     // --> 2. Copy plugin dir over to cameo plugins dir
     dependsOn tasks.copyPlugin
 }
-
-
-
 
 
 

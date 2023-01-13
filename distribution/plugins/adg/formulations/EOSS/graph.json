@@ -1,0 +1,15 @@
+{
+  "decisions": [
+    {
+      "name": "Instrument Selection",
+      "type": "DownSelecting"
+    }
+  ],
+  "edges":[
+    {
+      "parent": "Root",
+      "child": "Instrument Selection",
+      "operates_on": "instruments"
+    }
+  ]
+}

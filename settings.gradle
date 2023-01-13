@@ -9,4 +9,4 @@
 
 rootProject.name = 'adgplugin'
 include('lib')
-include('adg')
+include('adg-distribution')

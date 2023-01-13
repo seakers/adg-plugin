@@ -1,0 +1,22 @@
+{
+  "decisions": [
+    {
+      "name": "Antenna Assignment",
+      "type": "Assigning"
+    }
+  ],
+  "edges":[
+    {
+      "parent": "Root",
+      "child": "Antenna Assignment",
+      "operates_on": "constellations",
+      "type": "TO"
+    },
+    {
+      "parent": "Root",
+      "child": "Antenna Assignment",
+      "operates_on": "antennas",
+      "type": "FROM"
+    }
+  ]
+}

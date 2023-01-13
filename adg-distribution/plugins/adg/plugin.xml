@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin 
+	id="adg" 
+	name="Architecture Decision Graph Plugin" 
+	version="1.0" 
+	provider-name="SEAKLAB" 
+	class="adg.plugin.ADG_Plugin">
+	
+    	<requires>
+        	<api version="1.0"/>
+    	</requires>
+
+    	<runtime>
+			<library name="lib.jar"/>
+			<library name="neo4j-java-driver-4.1.1.jar"/>
+			<library name="reactive-streams-1.0.3.jar"/>
+<!--			<library name="decision-graph.jar"/>-->
+<!--            <library name="decisions.jar"/>-->
+            <library name="decisions_evaluator.jar"/>
+			<library name="gson-2.8.6.jar"/>
+            <library name="moeaframework-2.12.jar"/>
+
+
+            <library name="checker-qual-3.5.0.jar"/>
+            <library name="classgraph-4.8.60.jar"/>
+            <library name="commons-math3-3.6.1.jar"/>
+            <library name="error_prone_annotations-2.3.4.jar"/>
+            <library name="failureaccess-1.0.1.jar"/>
+            <library name="fastutil-8.3.0.jar"/>
+            <library name="guava-30.0-jre.jar"/>
+            <library name="icu4j-65.1.jar"/>
+            <library name="j2objc-annotations-1.3.jar"/>
+            <library name="jackson-annotations-2.13.2.jar"/>
+            <library name="jackson-core-2.13.2.jar"/>
+            <library name="jackson-databind-2.13.2.1.jar"/>
+            <library name="jsr305-3.0.2.jar"/>
+            <library name="listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"/>
+            <library name="pebble-3.1.2.jar"/>
+            <library name="RoaringBitmap-0.9.25.jar"/>
+            <library name="slf4j-api-1.7.25.jar"/>
+            <library name="shims-0.9.25.jar"/>
+            <library name="tablesaw-core-0.43.1.jar"/>
+            <library name="tablesaw-jsplot-0.43.1.jar"/>
+            <library name="unbescape-1.1.6.RELEASE.jar"/>
+            <library name="univocity-parsers-2.8.4.jar"/>
+
+    	</runtime>
+</plugin>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

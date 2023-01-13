@@ -1,0 +1,125 @@
+{
+  "sensors":[
+    {
+      "sensor_types": [
+        {
+          "name": "s1"
+        },
+        {
+          "name": "s2"
+        },
+        {
+          "name": "s3"
+        }
+      ]
+    },
+    {
+      "sensor_types": [
+        {
+          "name": "s1"
+        },
+        {
+          "name": "s2"
+        },
+        {
+          "name": "s3"
+        }
+      ]
+    },
+    {
+      "sensor_types": [
+        {
+          "name": "s1"
+        },
+        {
+          "name": "s2"
+        },
+        {
+          "name": "s3"
+        }
+      ]
+    }
+  ],
+  "computers": [
+    {
+      "computer_types": [
+        {
+          "name": "c1"
+        },
+        {
+          "name": "c2"
+        },
+        {
+          "name": "c3"
+        }
+      ]
+    },
+    {
+      "computer_types": [
+        {
+          "name": "c1"
+        },
+        {
+          "name": "c2"
+        },
+        {
+          "name": "c3"
+        }
+      ]
+    },
+    {
+      "computer_types": [
+        {
+          "name": "c1"
+        },
+        {
+          "name": "c2"
+        },
+        {
+          "name": "c3"
+        }
+      ]
+    }
+  ],
+  "actuators": [
+    {
+      "actuator_types": [
+        {
+          "name": "a1"
+        },
+        {
+          "name": "a2"
+        },
+        {
+          "name": "a3"
+        }
+      ]
+    },
+    {
+      "actuator_types": [
+        {
+          "name": "a1"
+        },
+        {
+          "name": "a2"
+        },
+        {
+          "name": "a3"
+        }
+      ]
+    },
+    {
+      "actuator_types": [
+        {
+          "name": "a1"
+        },
+        {
+          "name": "a2"
+        },
+        {
+          "name": "a3"
+        }
+      ]
+    }
+  ]
+}

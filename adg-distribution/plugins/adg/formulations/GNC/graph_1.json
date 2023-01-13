@@ -1,0 +1,33 @@
+{
+  "decisions": [
+    {
+      "name": "SensorSelection",
+      "type": "DownSelecting"
+    },
+    {
+      "name": "ComputerSelection",
+      "type": "DownSelecting"
+    },
+    {
+      "name": "ActuatorSelection",
+      "type": "DownSelecting"
+    }
+  ],
+  "edges":[
+    {
+      "parent": "Root",
+      "child": "SensorSelection",
+      "operates_on": "sensors"
+    },
+    {
+      "parent": "Root",
+      "child": "ComputerSelection",
+      "operates_on": "computers"
+    },
+    {
+      "parent": "Root",
+      "child": "ActuatorSelection",
+      "operates_on": "actuators"
+    }
+  ]
+}

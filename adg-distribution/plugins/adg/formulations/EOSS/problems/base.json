@@ -1,0 +1,19 @@
+{
+  "instruments": [
+    {
+      "name": "VIIRS"
+    },
+    {
+      "name": "CMIS"
+    },
+    {
+      "name": "BIOMASS"
+    },
+    {
+      "name": "SMAP_MWR"
+    },
+    {
+      "name": "SMAP_RAD"
+    }
+  ]
+}
