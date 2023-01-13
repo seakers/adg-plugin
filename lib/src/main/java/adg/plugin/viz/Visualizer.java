@@ -153,7 +153,7 @@ public class Visualizer {
 //        Figure figure = ScatterPlot.create("Design Space", data_table, "Cost", "Science");
 
 
-        Path fig_path = Paths.get(ADG_Plugin.getPluginPath().toString(), "figures", "fig.html");
+        Path fig_path = Paths.get(ADG_Plugin.getStorePath().toString(), "fig.html");
         File fig_file = fig_path.toFile();
         Plot.show(figure, fig_file);
 

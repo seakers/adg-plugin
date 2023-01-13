@@ -102,6 +102,23 @@ public class ADG_Plugin extends Plugin{
         return plugin_path;
     }
 
+    public static Path getStorePath(){
+        Path store_path = null;
+        try{
+            String path = System.getProperty("user.home");
+            Path path_obj = Paths.get(path);
+            store_path = Paths.get(path_obj.toString(), ".adg");
+            File directory = store_path.toFile();
+            if (!directory.exists()){
+                directory.mkdir();
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return store_path;
+    }
+
 
 
 //                    _    _

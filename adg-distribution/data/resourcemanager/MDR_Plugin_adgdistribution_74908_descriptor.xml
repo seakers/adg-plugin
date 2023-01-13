@@ -58,9 +58,6 @@
         <file from="plugins/adg/neo4j-java-driver-4.1.1.jar" to="plugins/adg/neo4j-java-driver-4.1.1.jar"/>
         <file from="plugins/adg/pebble-3.1.2.jar" to="plugins/adg/pebble-3.1.2.jar"/>
         <file from="plugins/adg/plugin.xml" to="plugins/adg/plugin.xml"/>
-        <file from="plugins/adg/profiles/ADGProfile.mdzip" to="plugins/adg/profiles/ADGProfile.mdzip"/>
-        <file from="plugins/adg/profiles/ADM Profile.mdzip" to="plugins/adg/profiles/ADM Profile.mdzip"/>
-        <file from="plugins/adg/profiles/ADM Profile.mdzip.bak" to="plugins/adg/profiles/ADM Profile.mdzip.bak"/>
         <file from="plugins/adg/reactive-streams-1.0.3.jar" to="plugins/adg/reactive-streams-1.0.3.jar"/>
         <file from="plugins/adg/RoaringBitmap-0.9.25.jar" to="plugins/adg/RoaringBitmap-0.9.25.jar"/>
         <file from="plugins/adg/shims-0.9.25.jar" to="plugins/adg/shims-0.9.25.jar"/>

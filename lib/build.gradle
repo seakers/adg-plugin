@@ -19,7 +19,7 @@ def CAMEO_LIB_PATH = CAMEO_PATH + File.separator + 'lib'
 def CAMEO_PLUGINS_PATH = CAMEO_PATH + File.separator + 'plugins'
 def CAMEO_SYSML_PLUGIN_PATH = CAMEO_PLUGINS_PATH + File.separator + 'com.nomagic.magicdraw.sysml'
 def CAMEO_ADG_PLUGIN_PATH = CAMEO_PLUGINS_PATH + File.separator + 'adg'
-def DISTRIBUTION_PATH = 'C:\\Users\\apaza\\repos\\seakers\\adgplugin\\distribution\\plugins\\adg'
+def DISTRIBUTION_PATH = 'C:\\Users\\apaza\\repos\\seakers\\adgplugin\\adg-distribution\\plugins\\adg'
 def LOCAL_OLD_ADG_API_PATH = DISTRIBUTION_PATH + File.separator + 'decisions_evaluator.jar'
 
 
